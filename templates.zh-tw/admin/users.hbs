@@ -27,7 +27,7 @@
                                         <span class="badge bg-danger me-2" title="用戶已停用">已停用</span>
                                     {{/unless}}
                                     {{#if twoFactorEnabled}}
-                                        <span class="badge bg-success me-2" title="已啟用雙重認證">2FA</span>
+                                        <span class="badge bg-success me-2" title="已啟用雙因素認證">2FA</span>
                                     {{/if}}
                                     {{#case _status 1}}
                                         <span class="badge bg-warning text-dark me-2" title="用戶已邀請">已邀請</span>
@@ -48,9 +48,9 @@
                             <span class="d-block">{{cipher_count}}</span>
                         </td>
                         <td>
-                            <span class="d-block"><strong>數量:</strong> {{attachment_count}}</span>
+                            <span class="d-block"><strong>數量：</strong> {{attachment_count}}</span>
                             {{#if attachment_count}}
-                            <span class="d-block"><strong>大小:</strong> {{attachment_size}}</span>
+                            <span class="d-block"><strong>大小：</strong> {{attachment_size}}</span>
                             {{/if}}
                         </td>
                         <td>
@@ -60,7 +60,7 @@
                             {{/each}}
                             </div>
                         </td>
-                        <td class="text-end px-0 small">
+                        <td class="text-end px-1 small">
                             <span data-vw-user-uuid="{{id}}" data-vw-user-email="{{email}}">
                                 {{#if twoFactorEnabled}}
                                 <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-remove2fa>移除所有2FA</button><br>
@@ -73,7 +73,7 @@
                                 <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-enable-user>啟用用戶</button><br>
                                 {{/if}}
                                 {{#case _status 1}}
-                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-resend-user-invite>重新發送邀請</button><br>
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-resend-user-invite>重發邀請</button><br>
                                 {{/case}}
                             </span>
                         </td>
@@ -85,7 +85,7 @@
 
         <div class="mt-3 clearfix">
             <button type="button" class="btn btn-sm btn-danger" id="updateRevisions"
-                title="強制所有客戶端在下次連接時獲取新數據。在恢復備份後使用此功能可清除任何過時數據。">
+                title="強制所有客戶端在下次連接時獲取新數據。在恢復備份後使用可清除任何過時數據。">
                 強制客戶端重新同步
             </button>
 
@@ -96,10 +96,10 @@
     <div id="inviteUserFormBlock" class="align-items-center p-3 mb-3 text-white-50 bg-secondary rounded shadow">
         <div>
             <h6 class="mb-0 text-white">邀請用戶</h6>
-            <small>電子郵件:</small>
+            <small>電子郵件：</small>
 
             <form class="form-inline input-group w-50" id="inviteUserForm">
-                <input type="email" class="form-control me-2" id="inviteEmail" placeholder="輸入郵箱" required spellcheck="false">
+                <input type="email" class="form-control me-2" id="inviteEmail" placeholder="輸入電子郵件" required spellcheck="false">
                 <button type="submit" class="btn btn-primary">邀請</button>
             </form>
         </div>
@@ -110,7 +110,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h6 class="modal-title">
-                        <b>更新用戶類型:</b><br><b>組織:</b> <span id="userOrgTypeDialogOrgName"></span><br><b>用戶:</b> <span id="userOrgTypeDialogUserEmail"></span>
+                        <b>更新用戶類型：</b><br><b>組織：</b> <span id="userOrgTypeDialogOrgName"></span><br><b>用戶：</b> <span id="userOrgTypeDialogUserEmail"></span>
                     </h6>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
                 </div>
@@ -128,7 +128,7 @@
                             <label><input type="radio" value="1" class="form-radio-input" name="user_type" id="userOrgTypeAdmin">&nbsp;系統管理員</label>
                         </div>
                         <div class="radio">
-                            <label><input type="radio" value="0" class="form-radio-input" name="user_type" id="userOrgTypeOwner">&nbsp;所有者</label>
+                            <label><input type="radio" value="0" class="form-radio-input" name="user_type" id="userOrgTypeOwner">&nbsp;擁有者</label>
                         </div>
                     </div>
                     <div class="modal-footer">

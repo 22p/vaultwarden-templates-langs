@@ -7,7 +7,7 @@
                     <tr>
                         <th class="vw-account-details">사용자</th>
                         <th class="vw-created-at">생성일</th>
-                        <th class="vw-last-active">마지막 활동</th>
+                        <th class="vw-last-active">최근 활동</th>
                         <th class="vw-entries">항목</th>
                         <th class="vw-attachments">첨부파일</th>
                         <th class="vw-organizations">조직</th>
@@ -60,7 +60,7 @@
                             {{/each}}
                             </div>
                         </td>
-                        <td class="text-end px-0 small">
+                        <td class="text-end px-1 small">
                             <span data-vw-user-uuid="{{id}}" data-vw-user-email="{{email}}">
                                 {{#if twoFactorEnabled}}
                                 <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-remove2fa>2FA 모두 제거</button><br>

@@ -60,7 +60,7 @@
                             {{/each}}
                             </div>
                         </td>
-                        <td class="text-end px-0 small">
+                        <td class="text-end px-1 small">
                             <span data-vw-user-uuid="{{id}}" data-vw-user-email="{{email}}">
                                 {{#if twoFactorEnabled}}
                                 <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-remove2fa>移除所有2FA</button><br>
@@ -85,7 +85,7 @@
 
         <div class="mt-3 clearfix">
             <button type="button" class="btn btn-sm btn-danger" id="updateRevisions"
-                title="强制所有客户端在下次连接时获取新数据。在恢复备份后使用可清除陈旧数据。">
+                title="强制所有客户端在下次连接时获取新数据。在恢复备份后使用可清除任何过时数据。">
                 强制客户端重新同步
             </button>
 

@@ -24,6 +24,7 @@
                     <dt class="col-sm-5">웹 설치 버전
                         <span class="badge bg-success d-none" id="web-success" title="최신 버전이 설치되어 있습니다.">확인</span>
                         <span class="badge bg-warning text-dark d-none" id="web-warning" title="업데이트가 가능한 것으로 보입니다.">업데이트</span>
+                        <span class="badge bg-info text-dark d-none" id="web-prerelease" title="사전 릴리스 버전을 사용 중인 것으로 보입니다.">사전 릴리스</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="web-installed">{{page_data.web_vault_version}}</span>
@@ -68,10 +69,14 @@
                         <span class="d-block"><b>아니오</b></span>
                     {{/unless}}
                     </dd>
-                    <dt class="col-sm-5">환경 설정 재정의됨</dt>
+                    <dt class="col-sm-5">config.json 사용
+                    {{#if page_data.overrides}}
+                        <span class="badge bg-info text-dark" title="환경 변수가 config.json에 의해 재정의되었습니다.">참고</span>
+                    {{/if}}
+                    </dt>
                     <dd class="col-sm-7">
                     {{#if page_data.overrides}}
-                        <span class="d-block" title="다음 설정이 재정의되었습니다: {{page_data.overrides}}"><b>예</b></span>
+                        <abbr class="d-block" title="다음 설정이 재정의되었습니다: {{page_data.overrides}}"><b>예</b></abbr>
                     {{/if}}
                     {{#unless page_data.overrides}}
                         <span class="d-block"><b>아니오</b></span>
@@ -93,7 +98,7 @@
                         <span class="badge bg-success" title="IP_HEADER 설정이 유효한 것으로 보입니다.">일치</span>
                     {{/if}}
                     {{#unless page_data.ip_header_match}}
-                        <span class="badge bg-danger" title="IP_HEADER 설정이 유효하지 않습니다. 로그의 IP가 잘못될 수 있습니다. 수정해 주세요.">불일치</span>
+                        <span class="badge bg-danger" title="IP_HEADER 설정이 유효하지 않은 것으로 보입니다. 로그의 IP가 잘못될 수 있습니다. 수정해 주세요.">불일치</span>
                     {{/unless}}
                     </dt>
                     <dd class="col-sm-7">
@@ -112,7 +117,7 @@
                         <span class="badge bg-success" title="인터넷에 접속할 수 있습니다!">확인</span>
                     {{/if}}
                     {{#unless page_data.has_http_access}}
-                        <span class="badge bg-danger" title="인터넷에 접속할 수 없습니다. 수정해 주세요.">오류</span>
+                        <span class="badge bg-danger" title="인터넷에 접속할 수 없는 것으로 보입니다. 수정해 주세요.">오류</span>
                     {{/unless}}
                     </dt>
                     <dd class="col-sm-7">
@@ -154,17 +159,21 @@
                     <dd class="col-sm-7">
                         <span id="dns-resolved">{{page_data.dns_resolved}}</span>
                     </dd>
-                    <dt class="col-sm-5">날짜 및 시간 (현지 시간)</dt>
+                    <dt class="col-sm-5">날짜 및 시간 (현지 시간)
+                        {{#if page_data.tz_env}}
+                            <span class="badge bg-success" title="TZ 환경 변수가 설정되었습니다">{{page_data.tz_env}}</span>
+                        {{/if}}
+                    </dt>
                     <dd class="col-sm-7">
                         <span><b>서버:</b> {{page_data.server_time_local}}</span>
                     </dd>
                     <dt class="col-sm-5">날짜 및 시간 (UTC)
-                        <span class="badge bg-success d-none" id="time-success" title="서버와 브라우저 시간이 15초 이내로 차이가 납니다.">서버/브라우저 확인</span>
-                        <span class="badge bg-danger d-none" id="time-warning" title="서버와 브라우저 시간이 15초 이상 차이가 납니다.">서버/브라우저 오류</span>
-                        <span class="badge bg-success d-none" id="ntp-server-success" title="서버와 NTP 시간이 15초 이내로 차이가 납니다.">서버 NTP 확인</span>
-                        <span class="badge bg-danger d-none" id="ntp-server-warning" title="서버와 NTP 시간이 15초 이상 차이가 납니다.">서버 NTP 오류</span>
-                        <span class="badge bg-success d-none" id="ntp-browser-success" title="브라우저와 NTP 시간이 15초 이내로 차이가 납니다.">브라우저 NTP 확인</span>
-                        <span class="badge bg-danger d-none" id="ntp-browser-warning" title="브라우저와 NTP 시간이 15초 이상 차이가 납니다.">브라우저 NTP 오류</span>
+                        <span class="badge bg-success d-none" id="time-success" title="서버와 브라우저 시간이 15초 이내로 일치합니다.">서버/브라우저 확인</span>
+                        <span class="badge bg-danger d-none" id="time-warning" title="서버와 브라우저 시간이 15초 이상 차이납니다.">서버/브라우저 오류</span>
+                        <span class="badge bg-success d-none" id="ntp-server-success" title="서버와 NTP 시간이 15초 이내로 일치합니다.">서버 NTP 확인</span>
+                        <span class="badge bg-danger d-none" id="ntp-server-warning" title="서버와 NTP 시간이 15초 이상 차이납니다.">서버 NTP 오류</span>
+                        <span class="badge bg-success d-none" id="ntp-browser-success" title="브라우저와 NTP 시간이 15초 이내로 일치합니다.">브라우저 NTP 확인</span>
+                        <span class="badge bg-danger d-none" id="ntp-browser-warning" title="브라우저와 NTP 시간이 15초 이상 차이납니다.">브라우저 NTP 오류</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="ntp-time" class="d-block"><b>NTP:</b> <span id="ntp-server-string">{{page_data.ntp_time}}</span></span>
@@ -199,14 +208,14 @@
             <div class="col-md">
                 <dl class="row">
                     <dd class="col-sm-12">
-                        지원이 필요하시면 새 이슈를 생성하기 전에 다음 링크를 먼저 확인해 주세요:
+                        지원이 필요한 경우 새 문제를 생성하기 전에 다음 링크를 먼저 확인해 주세요:
                          <a href="https://vaultwarden.discourse.group/" target="_blank" rel="noreferrer noopener">Vaultwarden 포럼</a>
                          | <a href="https://github.com/dani-garcia/vaultwarden/discussions" target="_blank" rel="noreferrer noopener">Github 토론</a>
                     </dd>
                 </dl>
                 <dl class="row">
                     <dd class="col-sm-12">
-                        아래 버튼을 사용하여 포럼이나 Github에서 새 이슈를 생성할 때 복사/붙여넣기할 수 있는 문자열을 미리 생성할 수 있습니다.<br>
+                        아래 버튼을 사용하여 포럼이나 Github에서 새 문제를 생성할 때 복사/붙여넣기할 수 있는 문자열을 미리 생성할 수 있습니다.<br>
                         생성된 지원 문자열에서 가장 민감한 값들을 기본적으로 숨기려고 노력하지만, 숨기고 싶은 내용이 없는지 확인해 주세요!<br>
                     </dd>
                 </dl>

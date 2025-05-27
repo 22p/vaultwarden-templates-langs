@@ -1,10 +1,10 @@
-/**** 開始靜態 Vaultwarden 變更 ****/
-/* 此規則將所有繼承它的選擇器合併為一個 */
+/**** 開始 靜態 Vaultwarden 變更 ****/
+/* 此將所有繼承它的選擇器合併為一個 */
 %vw-hide {
   display: none !important;
 }
 
-/* 這允許在瀏覽器的開發工具中搜索合併的樣式（查看 head 標籤） */
+/* 此允許在瀏覽器的開發工具中搜尋合併的樣式（查看 head 標籤） */
 .vw-hide,
 head {
   @extend %vw-hide;
@@ -21,7 +21,15 @@ a[href$="/settings/sponsored-families"] {
 }
 
 /* 隱藏登入頁面上的 `企業單一登入` 按鈕 */
-a[routerlink="/sso"] {
+app-root form.ng-untouched button.\!tw-text-primary-600:nth-child(4) {
+  @extend %vw-hide;
+}
+/* 隱藏登入頁面上的使用通行金鑰登入 */
+app-root form.ng-untouched a[routerlink="/login-with-passkey"] {
+  @extend %vw-hide;
+}
+/* 隱藏上述兩個隱藏按鈕後的或文字 */
+app-root form.ng-untouched > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) {
   @extend %vw-hide;
 }
 
@@ -31,33 +39,17 @@ a[href$="/settings/two-factor"] {
   @extend %vw-hide;
 }
 
-/* 隱藏企業擁有核取方塊 */
-app-org-info > form:nth-child(1) > div:nth-child(3) {
-  @extend %vw-hide;
-}
-
-/* 隱藏 `此帳戶由企業擁有` 核取方塊和標籤 */
-#ownedBusiness,
-label[for^="ownedBusiness"] {
-  @extend %vw-hide;
-}
-
-/* 隱藏企業名稱 */
-app-org-account form div bit-form-field.tw-block:nth-child(3) {
-  @extend %vw-hide;
-}
-
 /* 隱藏組織方案 */
 app-organization-plans > form > bit-section:nth-child(2) {
   @extend %vw-hide;
 }
 
 /* 隱藏集合管理表單 */
-app-org-account form.ng-untouched:nth-child(6) {
+app-org-account form.ng-untouched:nth-child(5) {
   @extend %vw-hide;
 }
 
-/* 隱藏組織報告中的 '成員存取' 報告卡 */
+/* 隱藏組織報告中的 `成員存取` 報告卡 */
 app-org-reports-home > app-report-list > div.tw-inline-grid > div:nth-child(6) {
   @extend %vw-hide;
 }
@@ -73,11 +65,6 @@ bit-dialog div.tw-col-span-4:has(input[formcontrolname*="access"], input[formcon
   @extend %vw-hide;
 }
 
-/* 隱藏使用通行金鑰登入 */
-app-login div.tw-flex:nth-child(4) {
-  @extend %vw-hide;
-}
-
 /* 將折疊選單圖示更改為 Vaultwarden */
 bit-nav-logo bit-nav-item a:before {
   content: "";
@@ -90,26 +77,36 @@ bit-nav-logo bit-nav-item a:before {
 bit-nav-logo bit-nav-item .bwi-shield {
   @extend %vw-hide;
 }
-/**** 結束靜態 Vaultwarden 變更 ****/
-/**** 開始動態 Vaultwarden 變更 ****/
+/**** 結束 靜態 Vaultwarden 變更 ****/
+/**** 開始 動態 Vaultwarden 變更 ****/
 {{#if signup_disabled}}
+/* 從 web vault 2025.1.2 開始，當註冊被禁用時，註冊按鈕會被隱藏，
+  因為 web vault 會檢查 /api/config 端點。
+  請注意，客戶端通常會緩存此端點約 1 小時，因此變更可能需要一段時間才會生效。
+  為了避免按鈕在不應該出現時出現，我們將保留此樣式幾個版本 */
 /* 隱藏登入畫面中的註冊連結 */
+{{#if (webver "<2025.3.0")}}
 app-login form div + div + div + div + hr,
 app-login form div + div + div + div + hr + p {
   @extend %vw-hide;
 }
+{{else}}
+app-root a[routerlink="/signup"] {
+  @extend %vw-hide;
+}
+{{/if}}
 {{/if}}
 
 {{#unless mail_enabled}}
 /* 如果郵件未啟用，隱藏 `電子郵件` 雙因素驗證 */
-app-two-factor-setup ul.list-group.list-group-2fa li.list-group-item:nth-child(1) {
+.providers-2fa-1 {
   @extend %vw-hide;
 }
 {{/unless}}
 
 {{#unless yubico_enabled}}
 /* 如果未啟用，隱藏 `YubiKey OTP 安全金鑰` 雙因素驗證 */
-app-two-factor-setup ul.list-group.list-group-2fa li.list-group-item:nth-child(4) {
+.providers-2fa-3 {
   @extend %vw-hide;
 }
 {{/unless}}
@@ -122,13 +119,13 @@ bit-nav-item[route="settings/emergency-access"] {
 {{/unless}}
 
 {{#unless sends_allowed}}
-/* 如果不允許，隱藏發送 */
+/* 如果不允許，隱藏傳送 */
 bit-nav-item[route="sends"] {
   @extend %vw-hide;
 }
 {{/unless}}
-/**** 結束動態 Vaultwarden 變更 ****/
-/**** 包含特殊使用者樣式表以進行自訂變更 ****/
+/**** 結束 動態 Vaultwarden 變更 ****/
+/**** 包含一個特殊的用戶樣式表以進行自訂變更 ****/
 {{#if load_user_scss}}
 {{> scss/user.vaultwarden.scss }}
 {{/if}}

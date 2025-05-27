@@ -21,7 +21,15 @@ a[href$="/settings/sponsored-families"] {
 }
 
 /* ログインページの`Enterprise Single Sign-On`ボタンを非表示 */
-a[routerlink="/sso"] {
+app-root form.ng-untouched button.\!tw-text-primary-600:nth-child(4) {
+  @extend %vw-hide;
+}
+/* ログインページのパスキーでのログインを非表示 */
+app-root form.ng-untouched a[routerlink="/login-with-passkey"] {
+  @extend %vw-hide;
+}
+/* 上記で非表示にした2つのボタンに続く「or」テキストを非表示 */
+app-root form.ng-untouched > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) {
   @extend %vw-hide;
 }
 
@@ -31,38 +39,22 @@ a[href$="/settings/two-factor"] {
   @extend %vw-hide;
 }
 
-/* Business Ownedチェックボックスを非表示 */
-app-org-info > form:nth-child(1) > div:nth-child(3) {
-  @extend %vw-hide;
-}
-
-/* `This account is owned by a business`チェックボックスとラベルを非表示 */
-#ownedBusiness,
-label[for^="ownedBusiness"] {
-  @extend %vw-hide;
-}
-
-/* Business Nameを非表示 */
-app-org-account form div bit-form-field.tw-block:nth-child(3) {
-  @extend %vw-hide;
-}
-
 /* 組織プランを非表示 */
 app-organization-plans > form > bit-section:nth-child(2) {
   @extend %vw-hide;
 }
 
 /* コレクション管理フォームを非表示 */
-app-org-account form.ng-untouched:nth-child(6) {
+app-org-account form.ng-untouched:nth-child(5) {
   @extend %vw-hide;
 }
 
-/* Org Reportsから'Member Access'レポートカードを非表示 */
+/* 組織レポートの「メンバーアクセス」レポートカードを非表示 */
 app-org-reports-home > app-report-list > div.tw-inline-grid > div:nth-child(6) {
   @extend %vw-hide;
 }
 
-/* Two Step Login画面のデバイス検証フォームを非表示 */
+/* 二段階認証画面のデバイス検証フォームを非表示 */
 app-security > app-two-factor-setup > form {
   @extend %vw-hide;
 }
@@ -70,11 +62,6 @@ app-security > app-two-factor-setup > form {
 /* サポートされていないカスタムロールオプションを非表示 */
 bit-dialog div.tw-ml-4:has(bit-form-control input),
 bit-dialog div.tw-col-span-4:has(input[formcontrolname*="access"], input[formcontrolname*="manage"]) {
-  @extend %vw-hide;
-}
-
-/* パスキーでのログインを非表示 */
-app-login div.tw-flex:nth-child(4) {
   @extend %vw-hide;
 }
 
@@ -93,36 +80,46 @@ bit-nav-logo bit-nav-item .bwi-shield {
 /**** END Static Vaultwarden Changes ****/
 /**** START Dynamic Vaultwarden Changes ****/
 {{#if signup_disabled}}
+/* Web Vault 2025.1.2以降では、サインアップが無効な場合、サインアップボタンは非表示になります。
+  Web Vaultは/api/configエンドポイントをチェックします。
+  クライアントはこのエンドポイントを約1時間キャッシュする傾向があるため、変更が反映されるまで時間がかかる場合があります。
+  ボタンが表示されないようにするため、このスタイルをいくつかのバージョンの間保持します */
 /* ログイン画面の登録リンクを非表示 */
+{{#if (webver "<2025.3.0")}}
 app-login form div + div + div + div + hr,
 app-login form div + div + div + div + hr + p {
   @extend %vw-hide;
 }
+{{else}}
+app-root a[routerlink="/signup"] {
+  @extend %vw-hide;
+}
+{{/if}}
 {{/if}}
 
 {{#unless mail_enabled}}
-/* メールが有効でない場合`Email`2FAを非表示 */
-app-two-factor-setup ul.list-group.list-group-2fa li.list-group-item:nth-child(1) {
+/* メールが有効でない場合、`Email` 2FAを非表示 */
+.providers-2fa-1 {
   @extend %vw-hide;
 }
 {{/unless}}
 
 {{#unless yubico_enabled}}
-/* YubiKey OTPセキュリティキーが有効でない場合`YubiKey OTP security key`2FAを非表示 */
-app-two-factor-setup ul.list-group.list-group-2fa li.list-group-item:nth-child(4) {
+/* YubiKey OTPセキュリティキーが有効でない場合、`YubiKey OTP security key` 2FAを非表示 */
+.providers-2fa-3 {
   @extend %vw-hide;
 }
 {{/unless}}
 
 {{#unless emergency_access_allowed}}
-/* 許可されていない場合Emergency Accessを非表示 */
+/* 緊急アクセスが許可されていない場合、非表示 */
 bit-nav-item[route="settings/emergency-access"] {
   @extend %vw-hide;
 }
 {{/unless}}
 
 {{#unless sends_allowed}}
-/* 許可されていない場合Sendsを非表示 */
+/* Sendsが許可されていない場合、非表示 */
 bit-nav-item[route="sends"] {
   @extend %vw-hide;
 }

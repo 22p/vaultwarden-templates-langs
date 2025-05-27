@@ -6,10 +6,10 @@
         <div class="row">
             <div class="col-md">
                 <dl class="row">
-                    <dt class="col-sm-5">服务器安装版本
+                    <dt class="col-sm-5">服务器已安装版本
                         <span class="badge bg-success d-none" id="server-success" title="已安装最新版本。">正常</span>
                         <span class="badge bg-warning text-dark d-none" id="server-warning" title="似乎有可用更新。">更新</span>
-                        <span class="badge bg-info text-dark d-none" id="server-branch" title="这是分支版本。">分支版</span>
+                        <span class="badge bg-info text-dark d-none" id="server-branch" title="此为分支版本。">分支版</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="server-installed">{{page_data.current_release}}</span>
@@ -21,15 +21,16 @@
                         <span id="server-latest">{{page_data.latest_release}}<span id="server-latest-commit" class="d-none">-{{page_data.latest_commit}}</span></span>
                     </dd>
                     {{#if page_data.web_vault_enabled}}
-                    <dt class="col-sm-5">网页版安装版本
+                    <dt class="col-sm-5">网页端已安装版本
                         <span class="badge bg-success d-none" id="web-success" title="已安装最新版本。">正常</span>
                         <span class="badge bg-warning text-dark d-none" id="web-warning" title="似乎有可用更新。">更新</span>
+                        <span class="badge bg-info text-dark d-none" id="web-prerelease" title="您似乎在使用预发布版本。">预发布版</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="web-installed">{{page_data.web_vault_version}}</span>
                     </dd>
                     {{#unless page_data.running_within_container}}
-                    <dt class="col-sm-5">网页版最新版本
+                    <dt class="col-sm-5">网页端最新版本
                         <span class="badge bg-secondary d-none" id="web-failed" title="无法确定最新版本。">未知</span>
                     </dt>
                     <dd class="col-sm-7">
@@ -38,7 +39,7 @@
                     {{/unless}}
                     {{/if}}
                     {{#unless page_data.web_vault_enabled}}
-                    <dt class="col-sm-5">网页版安装版本</dt>
+                    <dt class="col-sm-5">网页端已安装版本</dt>
                     <dd class="col-sm-7">
                         <span id="web-installed">网页保险库已禁用</span>
                     </dd>
@@ -68,10 +69,14 @@
                         <span class="d-block"><b>否</b></span>
                     {{/unless}}
                     </dd>
-                    <dt class="col-sm-5">环境变量被覆盖</dt>
+                    <dt class="col-sm-5">使用config.json
+                    {{#if page_data.overrides}}
+                        <span class="badge bg-info text-dark" title="环境变量被config.json覆盖。">注意</span>
+                    {{/if}}
+                    </dt>
                     <dd class="col-sm-7">
                     {{#if page_data.overrides}}
-                        <span class="d-block" title="以下设置被覆盖: {{page_data.overrides}}"><b>是</b></span>
+                        <abbr class="d-block" title="以下设置被覆盖: {{page_data.overrides}}"><b>是</b></abbr>
                     {{/if}}
                     {{#unless page_data.overrides}}
                         <span class="d-block"><b>否</b></span>
@@ -86,7 +91,7 @@
                         <span class="d-block" title="未检测到IP头。"><b>否</b></span>
                     {{/unless}}
                     </dd>
-                    {{!-- 仅在IP头存在时显示 --}}
+                    {{!-- 仅当存在IP头时显示 --}}
                     {{#if page_data.ip_header_exists}}
                     <dt class="col-sm-5">IP头
                     {{#if page_data.ip_header_match}}
@@ -109,7 +114,7 @@
                     {{!-- IP头存在结束 --}}
                     <dt class="col-sm-5">互联网访问
                     {{#if page_data.has_http_access}}
-                        <span class="badge bg-success" title="可以访问互联网！">正常</span>
+                        <span class="badge bg-success" title="可访问互联网！">正常</span>
                     {{/if}}
                     {{#unless page_data.has_http_access}}
                         <span class="badge bg-danger" title="似乎无法访问互联网。请修复。">错误</span>
@@ -154,17 +159,21 @@
                     <dd class="col-sm-7">
                         <span id="dns-resolved">{{page_data.dns_resolved}}</span>
                     </dd>
-                    <dt class="col-sm-5">日期时间(本地)</dt>
+                    <dt class="col-sm-5">日期时间(本地)
+                        {{#if page_data.tz_env}}
+                            <span class="badge bg-success" title="已配置TZ环境变量">{{page_data.tz_env}}</span>
+                        {{/if}}
+                    </dt>
                     <dd class="col-sm-7">
                         <span><b>服务器:</b> {{page_data.server_time_local}}</span>
                     </dd>
                     <dt class="col-sm-5">日期时间(UTC)
-                        <span class="badge bg-success d-none" id="time-success" title="服务器和浏览器时间相差不超过15秒。">服务器/浏览器正常</span>
-                        <span class="badge bg-danger d-none" id="time-warning" title="服务器和浏览器时间相差超过15秒。">服务器/浏览器错误</span>
-                        <span class="badge bg-success d-none" id="ntp-server-success" title="服务器和NTP时间相差不超过15秒。">服务器NTP正常</span>
-                        <span class="badge bg-danger d-none" id="ntp-server-warning" title="服务器和NTP时间相差超过15秒。">服务器NTP错误</span>
-                        <span class="badge bg-success d-none" id="ntp-browser-success" title="浏览器和NTP时间相差不超过15秒。">浏览器NTP正常</span>
-                        <span class="badge bg-danger d-none" id="ntp-browser-warning" title="浏览器和NTP时间相差超过15秒。">浏览器NTP错误</span>
+                        <span class="badge bg-success d-none" id="time-success" title="服务器与浏览器时间相差不超过15秒。">服务器/浏览器正常</span>
+                        <span class="badge bg-danger d-none" id="time-warning" title="服务器与浏览器时间相差超过15秒。">服务器/浏览器错误</span>
+                        <span class="badge bg-success d-none" id="ntp-server-success" title="服务器与NTP时间相差不超过15秒。">服务器NTP正常</span>
+                        <span class="badge bg-danger d-none" id="ntp-server-warning" title="服务器与NTP时间相差超过15秒。">服务器NTP错误</span>
+                        <span class="badge bg-success d-none" id="ntp-browser-success" title="浏览器与NTP时间相差不超过15秒。">浏览器NTP正常</span>
+                        <span class="badge bg-danger d-none" id="ntp-browser-warning" title="浏览器与NTP时间相差超过15秒。">浏览器NTP错误</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="ntp-time" class="d-block"><b>NTP:</b> <span id="ntp-server-string">{{page_data.ntp_time}}</span></span>
@@ -174,9 +183,9 @@
 
                     <dt class="col-sm-5">域名配置
                         <span class="badge bg-success d-none" id="domain-success" title="域名变量与浏览器地址匹配且配置正确。">匹配</span>
-                        <span class="badge bg-danger d-none" id="domain-warning" title="域名变量与浏览器地址不匹配。&#013;&#010;域名变量似乎配置不正确。&#013;&#010;某些功能可能无法按预期工作！">不匹配</span>
+                        <span class="badge bg-danger d-none" id="domain-warning" title="域名变量与浏览器地址不匹配。&#013;&#010;域名变量似乎配置不正确。&#013;&#010;某些功能可能无法正常工作！">不匹配</span>
                         <span class="badge bg-success d-none" id="https-success" title="配置为使用HTTPS">HTTPS</span>
-                        <span class="badge bg-danger d-none" id="https-warning" title="未配置为使用HTTPS。&#013;&#010;某些功能可能无法按预期工作！">非HTTPS</span>
+                        <span class="badge bg-danger d-none" id="https-warning" title="未配置为使用HTTPS。&#013;&#010;某些功能可能无法正常工作！">非HTTPS</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="domain-server" class="d-block"><b>服务器:</b> <span id="domain-server-string">{{page_data.admin_url}}</span></span>

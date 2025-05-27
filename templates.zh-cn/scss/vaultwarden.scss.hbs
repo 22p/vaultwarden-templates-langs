@@ -21,7 +21,15 @@ a[href$="/settings/sponsored-families"] {
 }
 
 /* 隐藏登录页面的`企业单点登录`按钮 */
-a[routerlink="/sso"] {
+app-root form.ng-untouched button.\!tw-text-primary-600:nth-child(4) {
+  @extend %vw-hide;
+}
+/* 隐藏登录页面的`使用通行密钥登录` */
+app-root form.ng-untouched a[routerlink="/login-with-passkey"] {
+  @extend %vw-hide;
+}
+/* 隐藏上述两个按钮前的"或"文本 */
+app-root form.ng-untouched > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) {
   @extend %vw-hide;
 }
 
@@ -31,33 +39,17 @@ a[href$="/settings/two-factor"] {
   @extend %vw-hide;
 }
 
-/* 隐藏企业所有权复选框 */
-app-org-info > form:nth-child(1) > div:nth-child(3) {
-  @extend %vw-hide;
-}
-
-/* 隐藏`此账户由企业所有`复选框和标签 */
-#ownedBusiness,
-label[for^="ownedBusiness"] {
-  @extend %vw-hide;
-}
-
-/* 隐藏企业名称 */
-app-org-account form div bit-form-field.tw-block:nth-child(3) {
-  @extend %vw-hide;
-}
-
 /* 隐藏组织计划 */
 app-organization-plans > form > bit-section:nth-child(2) {
   @extend %vw-hide;
 }
 
 /* 隐藏集合管理表单 */
-app-org-account form.ng-untouched:nth-child(6) {
+app-org-account form.ng-untouched:nth-child(5) {
   @extend %vw-hide;
 }
 
-/* 从组织报告中隐藏'成员访问'报告卡片 */
+/* 隐藏组织报告中的'成员访问'报告卡 */
 app-org-reports-home > app-report-list > div.tw-inline-grid > div:nth-child(6) {
   @extend %vw-hide;
 }
@@ -70,11 +62,6 @@ app-security > app-two-factor-setup > form {
 /* 隐藏不支持的自定义角色选项 */
 bit-dialog div.tw-ml-4:has(bit-form-control input),
 bit-dialog div.tw-col-span-4:has(input[formcontrolname*="access"], input[formcontrolname*="manage"]) {
-  @extend %vw-hide;
-}
-
-/* 隐藏使用通行密钥登录 */
-app-login div.tw-flex:nth-child(4) {
   @extend %vw-hide;
 }
 
@@ -93,23 +80,33 @@ bit-nav-logo bit-nav-item .bwi-shield {
 /**** 结束静态Vaultwarden更改 ****/
 /**** 开始动态Vaultwarden更改 ****/
 {{#if signup_disabled}}
+/* 从web vault 2025.1.2开始，当注册被禁用时，注册按钮会被隐藏，
+   因为web vault会检查/api/config端点。
+   注意客户端通常会缓存此端点约1小时，因此更改可能需要一段时间才会生效。
+   为了避免按钮在不应该出现时显示，我们会保留此样式几个版本 */
 /* 隐藏登录屏幕上的注册链接 */
+{{#if (webver "<2025.3.0")}}
 app-login form div + div + div + div + hr,
 app-login form div + div + div + div + hr + p {
   @extend %vw-hide;
 }
+{{else}}
+app-root a[routerlink="/signup"] {
+  @extend %vw-hide;
+}
+{{/if}}
 {{/if}}
 
 {{#unless mail_enabled}}
 /* 如果邮件未启用，隐藏`电子邮件`双因素认证 */
-app-two-factor-setup ul.list-group.list-group-2fa li.list-group-item:nth-child(1) {
+.providers-2fa-1 {
   @extend %vw-hide;
 }
 {{/unless}}
 
 {{#unless yubico_enabled}}
 /* 如果未启用，隐藏`YubiKey OTP安全密钥`双因素认证 */
-app-two-factor-setup ul.list-group.list-group-2fa li.list-group-item:nth-child(4) {
+.providers-2fa-3 {
   @extend %vw-hide;
 }
 {{/unless}}
