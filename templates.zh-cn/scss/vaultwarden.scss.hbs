@@ -20,16 +20,50 @@ a[href$="/settings/sponsored-families"] {
   @extend %vw-hide;
 }
 
+/* 隐藏SSO的`电子邮件`输入字段 */
+.vw-email-sso {
+  @extend %vw-hide;
+}
+
 /* 隐藏登录页面的`企业单点登录`按钮 */
-app-root form.ng-untouched button.\!tw-text-primary-600:nth-child(4) {
+{{#if (webver ">=2025.5.1")}}
+.vw-sso-login {
+  @extend %vw-hide;
+}
+{{else}}
+app-root ng-component > form > div:nth-child(1) > div > button[buttontype="secondary"].\!tw-text-primary-600:nth-child(4) {
+  @extend %vw-hide;
+}
+{{/if}}
+
+/* 隐藏`使用通行密钥登录`设置 */
+app-change-password app-webauthn-login-settings {
   @extend %vw-hide;
 }
 /* 隐藏登录页面的`使用通行密钥登录` */
-app-root form.ng-untouched a[routerlink="/login-with-passkey"] {
+{{#if (webver ">=2025.5.1")}}
+.vw-passkey-login {
   @extend %vw-hide;
 }
-/* 隐藏上述两个按钮前的"或"文本 */
-app-root form.ng-untouched > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) {
+{{else}}
+app-root ng-component > form > div:nth-child(1) > div > button[buttontype="secondary"].\!tw-text-primary-600:nth-child(3) {
+  @extend %vw-hide;
+}
+{{/if}}
+
+/* 隐藏前面两个按钮之后的或文本 */
+{{#if (webver ">=2025.5.1")}}
+.vw-or-text {
+  @extend %vw-hide;
+}
+{{else}}
+app-root ng-component > form > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) {
+  @extend %vw-hide;
+}
+{{/if}}
+
+/* 隐藏登录页面的`其他`按钮 */
+.vw-other-login {
   @extend %vw-hide;
 }
 
@@ -49,12 +83,12 @@ app-org-account form.ng-untouched:nth-child(5) {
   @extend %vw-hide;
 }
 
-/* 隐藏组织报告中的'成员访问'报告卡 */
+/* 隐藏组织报告中的`成员访问`报告卡片 */
 app-org-reports-home > app-report-list > div.tw-inline-grid > div:nth-child(6) {
   @extend %vw-hide;
 }
 
-/* 隐藏两步登录界面的设备验证表单 */
+/* 隐藏两步登录屏幕的设备验证表单 */
 app-security > app-two-factor-setup > form {
   @extend %vw-hide;
 }
@@ -81,10 +115,10 @@ bit-nav-logo bit-nav-item .bwi-shield {
 /**** 开始动态Vaultwarden更改 ****/
 {{#if signup_disabled}}
 /* 从web vault 2025.1.2开始，当注册被禁用时，注册按钮会被隐藏，
-   因为web vault会检查/api/config端点。
-   注意客户端通常会缓存此端点约1小时，因此更改可能需要一段时间才会生效。
-   为了避免按钮在不应该出现时显示，我们会保留此样式几个版本 */
-/* 隐藏登录屏幕上的注册链接 */
+  因为web vault会检查/api/config端点。
+  注意客户端通常会缓存此端点约1小时，因此更改可能需要一段时间才能生效。
+  为了避免按钮在不应该出现时出现，我们会在几个版本中保留此样式 */
+/* 隐藏登录屏幕的注册链接 */
 {{#if (webver "<2025.3.0")}}
 app-login form div + div + div + div + hr,
 app-login form div + div + div + div + hr + p {
@@ -97,7 +131,7 @@ app-root a[routerlink="/signup"] {
 {{/if}}
 {{/if}}
 
-{{#unless mail_enabled}}
+{{#unless mail_2fa_enabled}}
 /* 如果邮件未启用，隐藏`电子邮件`双因素认证 */
 .providers-2fa-1 {
   @extend %vw-hide;
