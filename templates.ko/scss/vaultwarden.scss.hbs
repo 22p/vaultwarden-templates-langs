@@ -1,10 +1,10 @@
 /**** START Static Vaultwarden changes ****/
-/* 이 부분은 모든 선택자를 하나로 결합합니다 */
+/* 이 부분은 확장하는 모든 선택자를 하나로 결합합니다 */
 %vw-hide {
   display: none !important;
 }
 
-/* 브라우저 개발자 도구에서 결합된 스타일을 검색할 수 있게 합니다 (head 태그 내부 확인) */
+/* 이 부분은 브라우저 개발자 도구에서 결합된 스타일을 검색할 수 있게 합니다 (head 태그 안을 확인하세요) */
 .vw-hide,
 head {
   @extend %vw-hide;
@@ -15,32 +15,50 @@ bit-nav-item[route="settings/subscription"] {
   @extend %vw-hide;
 }
 
-/* 무료 Bitwarden Families를 가리키는 링크 숨기기 */
+/* 무료 Bitwarden Families를 가리키는 모든 링크 숨기기 */
 a[href$="/settings/sponsored-families"] {
   @extend %vw-hide;
 }
 
-/* SSO '이메일' 입력 필드 숨기기 */
+/* SSO `이메일` 입력 필드 숨기기 */
+{{#if (not sso_enabled)}}
 .vw-email-sso {
   @extend %vw-hide;
 }
+{{/if}}
 
-/* 로그인 페이지의 '기업용 Single Sign-On' 버튼 숨기기 */
+/* 기본/계속하기 `이메일` 입력 필드 숨기기 */
+{{#if sso_enabled}}
+.vw-email-continue {
+  @extend %vw-hide;
+}
+{{/if}}
+
+/* 로그인 페이지의 `계속하기` 버튼 숨기기 */
+{{#if sso_enabled}}
+.vw-continue-login {
+  @extend %vw-hide;
+}
+{{/if}}
+
+/* 로그인 페이지의 `엔터프라이즈 단일 사인온` 버튼 숨기기 */
 {{#if (webver ">=2025.5.1")}}
+{{#if (not sso_enabled)}}
 .vw-sso-login {
   @extend %vw-hide;
 }
+{{/if}}
 {{else}}
 app-root ng-component > form > div:nth-child(1) > div > button[buttontype="secondary"].\!tw-text-primary-600:nth-child(4) {
   @extend %vw-hide;
 }
 {{/if}}
 
-/* '패스키로 로그인' 설정 숨기기 */
-app-change-password app-webauthn-login-settings {
+/* `패스키로 로그인` 설정 숨기기 */
+app-user-layout app-password-settings app-webauthn-login-settings {
   @extend %vw-hide;
 }
-/* 로그인 페이지의 '패스키로 로그인' 숨기기 */
+/* 로그인 페이지의 패스키로 로그인 숨기기 */
 {{#if (webver ">=2025.5.1")}}
 .vw-passkey-login {
   @extend %vw-hide;
@@ -53,21 +71,25 @@ app-root ng-component > form > div:nth-child(1) > div > button[buttontype="secon
 
 /* 위에서 숨겨진 두 버튼 뒤에 오는 '또는' 텍스트 숨기기 */
 {{#if (webver ">=2025.5.1")}}
+{{#if (or (not sso_enabled) sso_only)}}
 .vw-or-text {
   @extend %vw-hide;
 }
+{{/if}}
 {{else}}
 app-root ng-component > form > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) {
   @extend %vw-hide;
 }
 {{/if}}
 
-/* 로그인 페이지의 '기타' 버튼 숨기기 */
+/* 로그인 페이지의 `기타` 버튼 숨기기 */
+{{#if (or (not sso_enabled) sso_only)}}
 .vw-other-login {
   @extend %vw-hide;
 }
+{{/if}}
 
-/* 조직 설정에서 2단계 인증 메뉴 숨기기 */
+/* 조직 설정의 2단계 인증 메뉴 숨기기 */
 bit-nav-item[route="settings/two-factor"],
 a[href$="/settings/two-factor"] {
   @extend %vw-hide;
@@ -88,12 +110,12 @@ app-org-reports-home > app-report-list > div.tw-inline-grid > div:nth-child(6) {
   @extend %vw-hide;
 }
 
-/* 2단계 로그인 화면에서 기기 확인 양식 숨기기 */
+/* 2단계 로그인 화면의 기기 확인 양식 숨기기 */
 app-security > app-two-factor-setup > form {
   @extend %vw-hide;
 }
 
-/* 지원되지 않는 사용자 정의 역할 옵션 숨기기 */
+/* 지원되지 않는 사용자 지정 역할 옵션 숨기기 */
 bit-dialog div.tw-ml-4:has(bit-form-control input),
 bit-dialog div.tw-col-span-4:has(input[formcontrolname*="access"], input[formcontrolname*="manage"]) {
   @extend %vw-hide;
@@ -111,14 +133,17 @@ bit-nav-logo bit-nav-item a:before {
 bit-nav-logo bit-nav-item .bwi-shield {
   @extend %vw-hide;
 }
+/* 사용자 설정 페이지의 기기 로그인 보호 버튼 숨기기 */
+app-user-layout app-danger-zone button:nth-child(1) {
+  @extend %vw-hide;
+}
 /**** END Static Vaultwarden Changes ****/
 /**** START Dynamic Vaultwarden Changes ****/
 {{#if signup_disabled}}
-/* 웹 볼트 2025.1.2 이상부터는 회원가입 버튼이 숨겨집니다.
-  웹 볼트가 /api/config 엔드포인트를 확인하기 때문입니다.
-  클라이언트는 이 엔드포인트를 약 1시간 동안 캐시하므로 변경이 적용되기까지 시간이 걸릴 수 있습니다.
-  버튼이 나타나지 않도록 하기 위해 몇 버전 동안 이 스타일을 유지합니다 */
-/* 로그인 화면에서 회원가입 링크 숨기기 */
+/* 웹 볼트 2025.1.2 이상부터, 가입이 비활성화되면 웹 볼트가 /api/config 엔드포인트를 확인하여 가입 버튼이 숨겨집니다.
+  클라이언트는 이 엔드포인트를 약 1시간 동안 캐시하는 경향이 있으므로 변경 사항이 적용되기까지 시간이 걸릴 수 있습니다.
+  버튼이 나타나지 않아야 할 때 나타나는 것을 방지하기 위해, 몇 버전 동안 이 스타일을 유지하겠습니다 */
+/* 로그인 화면의 등록 링크 숨기기 */
 {{#if (webver "<2025.3.0")}}
 app-login form div + div + div + div + hr,
 app-login form div + div + div + div + hr + p {
@@ -132,34 +157,41 @@ app-root a[routerlink="/signup"] {
 {{/if}}
 
 {{#unless mail_2fa_enabled}}
-/* 메일이 활성화되지 않은 경우 '이메일' 2FA 숨기기 */
+/* 메일이 활성화되지 않은 경우 `이메일` 2FA 숨기기 */
 .providers-2fa-1 {
   @extend %vw-hide;
 }
 {{/unless}}
 
 {{#unless yubico_enabled}}
-/* YubiKey OTP 보안 키 2FA가 활성화되지 않은 경우 숨기기 */
+/* 활성화되지 않은 경우 `YubiKey OTP 보안 키` 2FA 숨기기 */
 .providers-2fa-3 {
   @extend %vw-hide;
 }
 {{/unless}}
 
+{{#unless webauthn_2fa_supported}}
+/* 지원되지 않는 경우 `패스키` 2FA 숨기기 */
+.providers-2fa-7 {
+  @extend %vw-hide;
+}
+{{/unless}}
+
 {{#unless emergency_access_allowed}}
-/* 긴급 접근이 허용되지 않은 경우 숨기기 */
+/* 허용되지 않은 경우 긴급 접근 숨기기 */
 bit-nav-item[route="settings/emergency-access"] {
   @extend %vw-hide;
 }
 {{/unless}}
 
 {{#unless sends_allowed}}
-/* 전송이 허용되지 않은 경우 숨기기 */
+/* 허용되지 않은 경우 Send 숨기기 */
 bit-nav-item[route="sends"] {
   @extend %vw-hide;
 }
 {{/unless}}
 /**** End Dynamic Vaultwarden Changes ****/
-/**** 사용자 정의 변경을 위한 특별한 사용자 스타일시트 포함 ****/
+/**** 사용자 지정 변경을 위한 특별 사용자 스타일시트 포함 ****/
 {{#if load_user_scss}}
 {{> scss/user.vaultwarden.scss }}
 {{/if}}

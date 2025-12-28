@@ -4,7 +4,7 @@
   display: none !important;
 }
 
-/* 這允許在瀏覽器的開發工具中搜尋合併的樣式（查看 head 標籤） */
+/* 這允許在瀏覽器開發工具中搜尋合併的樣式（查看 head 標籤） */
 .vw-hide,
 head {
   @extend %vw-hide;
@@ -15,21 +15,39 @@ bit-nav-item[route="settings/subscription"] {
   @extend %vw-hide;
 }
 
-/* 隱藏指向免費 Bitwarden 家庭版的任何連結 */
+/* 隱藏指向免費 Bitwarden Families 的任何連結 */
 a[href$="/settings/sponsored-families"] {
   @extend %vw-hide;
 }
 
 /* 隱藏 SSO `電子郵件` 輸入欄位 */
+{{#if (not sso_enabled)}}
 .vw-email-sso {
   @extend %vw-hide;
 }
+{{/if}}
+
+/* 隱藏預設/繼續 `電子郵件` 輸入欄位 */
+{{#if sso_enabled}}
+.vw-email-continue {
+  @extend %vw-hide;
+}
+{{/if}}
+
+/* 隱藏登入頁面上的 `繼續` 按鈕 */
+{{#if sso_enabled}}
+.vw-continue-login {
+  @extend %vw-hide;
+}
+{{/if}}
 
 /* 隱藏登入頁面上的 `企業單一登入` 按鈕 */
 {{#if (webver ">=2025.5.1")}}
+{{#if (not sso_enabled)}}
 .vw-sso-login {
   @extend %vw-hide;
 }
+{{/if}}
 {{else}}
 app-root ng-component > form > div:nth-child(1) > div > button[buttontype="secondary"].\!tw-text-primary-600:nth-child(4) {
   @extend %vw-hide;
@@ -37,7 +55,7 @@ app-root ng-component > form > div:nth-child(1) > div > button[buttontype="secon
 {{/if}}
 
 /* 隱藏 `使用通行金鑰登入` 設定 */
-app-change-password app-webauthn-login-settings {
+app-user-layout app-password-settings app-webauthn-login-settings {
   @extend %vw-hide;
 }
 /* 隱藏登入頁面上的 `使用通行金鑰登入` */
@@ -51,11 +69,13 @@ app-root ng-component > form > div:nth-child(1) > div > button[buttontype="secon
 }
 {{/if}}
 
-/* 隱藏前面隱藏的兩個按鈕後的 or 文字 */
+/* 隱藏 `或` 文字及其後方兩個已隱藏的按鈕 */
 {{#if (webver ">=2025.5.1")}}
+{{#if (or (not sso_enabled) sso_only)}}
 .vw-or-text {
   @extend %vw-hide;
 }
+{{/if}}
 {{else}}
 app-root ng-component > form > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) {
   @extend %vw-hide;
@@ -63,9 +83,11 @@ app-root ng-component > form > div:nth-child(1) > div:nth-child(3) > div:nth-chi
 {{/if}}
 
 /* 隱藏登入頁面上的 `其他` 按鈕 */
+{{#if (or (not sso_enabled) sso_only)}}
 .vw-other-login {
   @extend %vw-hide;
 }
+{{/if}}
 
 /* 隱藏組織設定中的雙重驗證選單 */
 bit-nav-item[route="settings/two-factor"],
@@ -88,7 +110,7 @@ app-org-reports-home > app-report-list > div.tw-inline-grid > div:nth-child(6) {
   @extend %vw-hide;
 }
 
-/* 隱藏雙步驟登入畫面中的裝置驗證表單 */
+/* 隱藏兩步登入畫面中的裝置驗證表單 */
 app-security > app-two-factor-setup > form {
   @extend %vw-hide;
 }
@@ -99,7 +121,7 @@ bit-dialog div.tw-col-span-4:has(input[formcontrolname*="access"], input[formcon
   @extend %vw-hide;
 }
 
-/* 將折疊選單圖示更改為 Vaultwarden */
+/* 將摺疊選單圖示更改為 Vaultwarden */
 bit-nav-logo bit-nav-item a:before {
   content: "";
   background-image: url("../images/icon-white.svg");
@@ -111,13 +133,17 @@ bit-nav-logo bit-nav-item a:before {
 bit-nav-logo bit-nav-item .bwi-shield {
   @extend %vw-hide;
 }
+/* 隱藏使用者設定頁面上的裝置登入保護按鈕 */
+app-user-layout app-danger-zone button:nth-child(1) {
+  @extend %vw-hide;
+}
 /**** 結束靜態 Vaultwarden 變更 ****/
 /**** 開始動態 Vaultwarden 變更 ****/
 {{#if signup_disabled}}
-/* 從 web vault 2025.1.2 開始，當註冊被禁用時，註冊按鈕會被隱藏，
-  因為 web vault 會檢查 /api/config 端點。
-  請注意，客戶端通常會快取此端點約 1 小時，因此變更可能需要一段時間才會生效。
-  為了避免按鈕在不應該出現時出現，我們將保留此樣式幾個版本 */
+/* 從網頁保管庫 2025.1.2 開始，當註冊被禁用時，註冊按鈕會被隱藏，
+  因為網頁保管庫會檢查 /api/config 端點。
+  請注意，客戶端傾向於快取此端點約 1 小時，因此變更可能需要一段時間才會生效。
+  為了避免按鈕在不該出現時出現，我們將保留此樣式幾個版本 */
 /* 隱藏登入畫面中的註冊連結 */
 {{#if (webver "<2025.3.0")}}
 app-login form div + div + div + div + hr,
@@ -132,28 +158,35 @@ app-root a[routerlink="/signup"] {
 {{/if}}
 
 {{#unless mail_2fa_enabled}}
-/* 如果郵件未啟用，隱藏 `電子郵件` 雙重驗證 */
+/* 如果郵件未啟用，則隱藏 `電子郵件` 2FA */
 .providers-2fa-1 {
   @extend %vw-hide;
 }
 {{/unless}}
 
 {{#unless yubico_enabled}}
-/* 如果未啟用，隱藏 `YubiKey OTP 安全金鑰` 雙重驗證 */
+/* 如果未啟用，則隱藏 `YubiKey OTP 安全金鑰` 2FA */
 .providers-2fa-3 {
   @extend %vw-hide;
 }
 {{/unless}}
 
+{{#unless webauthn_2fa_supported}}
+/* 如果不支援，則隱藏 `通行金鑰` 2FA */
+.providers-2fa-7 {
+  @extend %vw-hide;
+}
+{{/unless}}
+
 {{#unless emergency_access_allowed}}
-/* 如果不允許，隱藏緊急存取 */
+/* 如果不允許，則隱藏緊急存取 */
 bit-nav-item[route="settings/emergency-access"] {
   @extend %vw-hide;
 }
 {{/unless}}
 
 {{#unless sends_allowed}}
-/* 如果不允許，隱藏發送 */
+/* 如果不允許，則隱藏 Send */
 bit-nav-item[route="sends"] {
   @extend %vw-hide;
 }

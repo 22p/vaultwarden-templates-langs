@@ -1,10 +1,10 @@
-/**** 开始静态Vaultwarden更改 ****/
-/* 将所有继承它的选择器合并为一个 */
+/**** 开始静态 Vaultwarden 更改 ****/
+/* 这将所有继承它的选择器合并为一个 */
 %vw-hide {
   display: none !important;
 }
 
-/* 允许在浏览器开发者工具中搜索合并后的样式（查看head标签） */
+/* 这允许在浏览器的开发者工具中搜索合并后的样式（查看 head 标签） */
 .vw-hide,
 head {
   @extend %vw-hide;
@@ -15,32 +15,50 @@ bit-nav-item[route="settings/subscription"] {
   @extend %vw-hide;
 }
 
-/* 隐藏指向免费Bitwarden家庭版的任何链接 */
+/* 隐藏指向免费 Bitwarden 家庭版的任何链接 */
 a[href$="/settings/sponsored-families"] {
   @extend %vw-hide;
 }
 
-/* 隐藏SSO的`电子邮件`输入字段 */
+/* 隐藏 SSO `电子邮件` 输入字段 */
+{{#if (not sso_enabled)}}
 .vw-email-sso {
   @extend %vw-hide;
 }
+{{/if}}
 
-/* 隐藏登录页面的`企业单点登录`按钮 */
+/* 隐藏默认/继续 `电子邮件` 输入字段 */
+{{#if sso_enabled}}
+.vw-email-continue {
+  @extend %vw-hide;
+}
+{{/if}}
+
+/* 隐藏登录页面上的 `继续` 按钮 */
+{{#if sso_enabled}}
+.vw-continue-login {
+  @extend %vw-hide;
+}
+{{/if}}
+
+/* 隐藏登录页面上的 `企业单点登录` 按钮 */
 {{#if (webver ">=2025.5.1")}}
+{{#if (not sso_enabled)}}
 .vw-sso-login {
   @extend %vw-hide;
 }
+{{/if}}
 {{else}}
 app-root ng-component > form > div:nth-child(1) > div > button[buttontype="secondary"].\!tw-text-primary-600:nth-child(4) {
   @extend %vw-hide;
 }
 {{/if}}
 
-/* 隐藏`使用通行密钥登录`设置 */
-app-change-password app-webauthn-login-settings {
+/* 隐藏 `使用通行密钥登录` 设置 */
+app-user-layout app-password-settings app-webauthn-login-settings {
   @extend %vw-hide;
 }
-/* 隐藏登录页面的`使用通行密钥登录` */
+/* 隐藏登录页面上的 `使用通行密钥登录` */
 {{#if (webver ">=2025.5.1")}}
 .vw-passkey-login {
   @extend %vw-hide;
@@ -51,23 +69,27 @@ app-root ng-component > form > div:nth-child(1) > div > button[buttontype="secon
 }
 {{/if}}
 
-/* 隐藏前面两个按钮之后的或文本 */
+/* 隐藏 `或` 文本及其后两个被隐藏的按钮 */
 {{#if (webver ">=2025.5.1")}}
+{{#if (or (not sso_enabled) sso_only)}}
 .vw-or-text {
   @extend %vw-hide;
 }
+{{/if}}
 {{else}}
 app-root ng-component > form > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) {
   @extend %vw-hide;
 }
 {{/if}}
 
-/* 隐藏登录页面的`其他`按钮 */
+/* 隐藏登录页面上的 `其他` 按钮 */
+{{#if (or (not sso_enabled) sso_only)}}
 .vw-other-login {
   @extend %vw-hide;
 }
+{{/if}}
 
-/* 隐藏组织设置中的双因素认证菜单 */
+/* 在组织设置中隐藏双因素认证菜单 */
 bit-nav-item[route="settings/two-factor"],
 a[href$="/settings/two-factor"] {
   @extend %vw-hide;
@@ -83,12 +105,12 @@ app-org-account form.ng-untouched:nth-child(5) {
   @extend %vw-hide;
 }
 
-/* 隐藏组织报告中的`成员访问`报告卡片 */
+/* 从组织报告中隐藏'成员访问'报告卡片 */
 app-org-reports-home > app-report-list > div.tw-inline-grid > div:nth-child(6) {
   @extend %vw-hide;
 }
 
-/* 隐藏两步登录屏幕的设备验证表单 */
+/* 在两步登录屏幕隐藏设备验证表单 */
 app-security > app-two-factor-setup > form {
   @extend %vw-hide;
 }
@@ -99,7 +121,7 @@ bit-dialog div.tw-col-span-4:has(input[formcontrolname*="access"], input[formcon
   @extend %vw-hide;
 }
 
-/* 将折叠菜单图标更改为Vaultwarden */
+/* 将折叠菜单图标更改为 Vaultwarden */
 bit-nav-logo bit-nav-item a:before {
   content: "";
   background-image: url("../images/icon-white.svg");
@@ -111,14 +133,18 @@ bit-nav-logo bit-nav-item a:before {
 bit-nav-logo bit-nav-item .bwi-shield {
   @extend %vw-hide;
 }
-/**** 结束静态Vaultwarden更改 ****/
-/**** 开始动态Vaultwarden更改 ****/
+/* 在用户设置页面隐藏设备登录保护按钮 */
+app-user-layout app-danger-zone button:nth-child(1) {
+  @extend %vw-hide;
+}
+/**** 结束静态 Vaultwarden 更改 ****/
+/**** 开始动态 Vaultwarden 更改 ****/
 {{#if signup_disabled}}
-/* 从web vault 2025.1.2开始，当注册被禁用时，注册按钮会被隐藏，
-  因为web vault会检查/api/config端点。
-  注意客户端通常会缓存此端点约1小时，因此更改可能需要一段时间才能生效。
-  为了避免按钮在不应该出现时出现，我们会在几个版本中保留此样式 */
-/* 隐藏登录屏幕的注册链接 */
+/* 从 Web 保管库 2025.1.2 及更高版本开始，当注册被禁用时，注册按钮会被隐藏，
+  因为 Web 保管库会检查 /api/config 端点。
+  请注意，客户端倾向于缓存此端点约 1 小时，因此更改可能需要一段时间才能生效。
+  为避免按钮在不应该出现时出现，我们将在几个版本中保留此样式 */
+/* 隐藏登录屏幕上的注册链接 */
 {{#if (webver "<2025.3.0")}}
 app-login form div + div + div + div + hr,
 app-login form div + div + div + div + hr + p {
@@ -132,33 +158,40 @@ app-root a[routerlink="/signup"] {
 {{/if}}
 
 {{#unless mail_2fa_enabled}}
-/* 如果邮件未启用，隐藏`电子邮件`双因素认证 */
+/* 如果邮件未启用，则隐藏 `电子邮件` 2FA */
 .providers-2fa-1 {
   @extend %vw-hide;
 }
 {{/unless}}
 
 {{#unless yubico_enabled}}
-/* 如果未启用，隐藏`YubiKey OTP安全密钥`双因素认证 */
+/* 如果未启用，则隐藏 `YubiKey OTP 安全密钥` 2FA */
 .providers-2fa-3 {
   @extend %vw-hide;
 }
 {{/unless}}
 
+{{#unless webauthn_2fa_supported}}
+/* 如果不支持，则隐藏 `通行密钥` 2FA */
+.providers-2fa-7 {
+  @extend %vw-hide;
+}
+{{/unless}}
+
 {{#unless emergency_access_allowed}}
-/* 如果不允许，隐藏紧急访问 */
+/* 如果不允许，则隐藏紧急访问 */
 bit-nav-item[route="settings/emergency-access"] {
   @extend %vw-hide;
 }
 {{/unless}}
 
 {{#unless sends_allowed}}
-/* 如果不允许，隐藏发送 */
+/* 如果不允许，则隐藏 Send */
 bit-nav-item[route="sends"] {
   @extend %vw-hide;
 }
 {{/unless}}
-/**** 结束动态Vaultwarden更改 ****/
+/**** 结束动态 Vaultwarden 更改 ****/
 /**** 包含一个特殊的用户样式表用于自定义更改 ****/
 {{#if load_user_scss}}
 {{> scss/user.vaultwarden.scss }}

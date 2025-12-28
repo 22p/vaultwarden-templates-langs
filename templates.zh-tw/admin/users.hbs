@@ -1,14 +1,17 @@
 <main class="container-xl">
     <div id="users-block" class="my-3 p-3 rounded shadow">
-        <h6 class="border-bottom pb-2 mb-3">已註冊用戶</h6>
+        <h6 class="border-bottom pb-2 mb-3">已註冊使用者</h6>
         <div class="table-responsive-xl small">
             <table id="users-table" class="table table-sm table-striped table-hover">
                 <thead>
                     <tr>
-                        <th class="vw-account-details">用戶</th>
-                        <th class="vw-created-at">創建時間</th>
-                        <th class="vw-last-active">最後活躍</th>
-                        <th class="vw-entries">條目</th>
+                        <th class="vw-account-details">使用者</th>
+                        {{#if sso_enabled}}
+                        <th class="vw-sso-identifier">SSO 識別碼</th>
+                        {{/if}}
+                        <th class="vw-created-at">建立時間</th>
+                        <th class="vw-last-active">最後活動</th>
+                        <th class="vw-entries">項目</th>
                         <th class="vw-attachments">附件</th>
                         <th class="vw-organizations">組織</th>
                         <th class="vw-actions">操作</th>
@@ -24,20 +27,25 @@
                                 <span class="d-block">{{email}}</span>
                                 <span class="d-block">
                                     {{#unless user_enabled}}
-                                        <span class="badge bg-danger me-2" title="用戶已停用">已停用</span>
+                                        <span class="badge bg-danger me-2" title="使用者已停用">已停用</span>
                                     {{/unless}}
                                     {{#if twoFactorEnabled}}
-                                        <span class="badge bg-success me-2" title="已啟用雙因素認證">2FA</span>
+                                        <span class="badge bg-success me-2" title="已啟用雙重認證">2FA</span>
                                     {{/if}}
                                     {{#case _status 1}}
-                                        <span class="badge bg-warning text-dark me-2" title="用戶已邀請">已邀請</span>
+                                        <span class="badge bg-warning text-dark me-2" title="使用者已受邀">已邀請</span>
                                     {{/case}}
                                     {{#if emailVerified}}
-                                        <span class="badge bg-success me-2" title="郵箱已驗證">已驗證</span>
+                                        <span class="badge bg-success me-2" title="電子郵件已驗證">已驗證</span>
                                     {{/if}}
                                 </span>
                             </div>
                         </td>
+                        {{#if ../sso_enabled}}
+                        <td>
+                            <span class="d-block">{{sso_identifier}}</span>
+                        </td>
+                        {{/if}}
                         <td>
                             <span class="d-block">{{created_at}}</span>
                         </td>
@@ -63,17 +71,20 @@
                         <td class="text-end px-1 small">
                             <span data-vw-user-uuid="{{id}}" data-vw-user-email="{{email}}">
                                 {{#if twoFactorEnabled}}
-                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-remove2fa>移除所有2FA</button><br>
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-remove2fa>移除所有 2FA</button><br>
                                 {{/if}}
-                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-deauth-user>撤銷會話</button><br>
-                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-delete-user>刪除用戶</button><br>
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-deauth-user>撤銷工作階段授權</button><br>
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-delete-user>刪除使用者</button><br>
+                                {{#if ../sso_enabled}}
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-delete-sso-user>刪除 SSO 關聯</button><br>
+                                {{/if}}
                                 {{#if user_enabled}}
-                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-disable-user>停用用戶</button><br>
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-disable-user>停用使用者</button><br>
                                 {{else}}
-                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-enable-user>啟用用戶</button><br>
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-enable-user>啟用使用者</button><br>
                                 {{/if}}
                                 {{#case _status 1}}
-                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-resend-user-invite>重發邀請</button><br>
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-resend-user-invite>重新傳送邀請</button><br>
                                 {{/case}}
                             </span>
                         </td>
@@ -85,17 +96,17 @@
 
         <div class="mt-3 clearfix">
             <button type="button" class="btn btn-sm btn-danger" id="updateRevisions"
-                title="強制所有客戶端在下次連接時獲取新數據。在恢復備份後使用可清除任何過時數據。">
+                title="強制所有客戶端在下次連線時擷取新資料。在還原備份後使用此功能以清除任何過時資料。">
                 強制客戶端重新同步
             </button>
 
-            <button type="button" class="btn btn-sm btn-primary float-end" id="reload">重新載入用戶</button>
+            <button type="button" class="btn btn-sm btn-primary float-end" id="reload">重新載入使用者</button>
         </div>
     </div>
 
     <div id="inviteUserFormBlock" class="align-items-center p-3 mb-3 text-white-50 bg-secondary rounded shadow">
         <div>
-            <h6 class="mb-0 text-white">邀請用戶</h6>
+            <h6 class="mb-0 text-white">邀請使用者</h6>
             <small>電子郵件：</small>
 
             <form class="form-inline input-group w-50" id="inviteUserForm">
@@ -110,7 +121,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h6 class="modal-title">
-                        <b>更新用戶類型：</b><br><b>組織：</b> <span id="userOrgTypeDialogOrgName"></span><br><b>用戶：</b> <span id="userOrgTypeDialogUserEmail"></span>
+                        <b>更新使用者類型：</b><br><b>組織：</b> <span id="userOrgTypeDialogOrgName"></span><br><b>使用者：</b> <span id="userOrgTypeDialogUserEmail"></span>
                     </h6>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
                 </div>
@@ -119,13 +130,13 @@
                     <input type="hidden" name="org_uuid" id="userOrgTypeOrgUuid" value="">
                     <div class="modal-body">
                         <div class="radio">
-                            <label><input type="radio" value="2" class="form-radio-input" name="user_type" id="userOrgTypeUser">&nbsp;用戶</label>
+                            <label><input type="radio" value="2" class="form-radio-input" name="user_type" id="userOrgTypeUser">&nbsp;使用者</label>
                         </div>
                         <div class="radio">
                             <label><input type="radio" value="3" class="form-radio-input" name="user_type" id="userOrgTypeManager">&nbsp;管理員</label>
                         </div>
                         <div class="radio">
-                            <label><input type="radio" value="1" class="form-radio-input" name="user_type" id="userOrgTypeAdmin">&nbsp;系統管理員</label>
+                            <label><input type="radio" value="1" class="form-radio-input" name="user_type" id="userOrgTypeAdmin">&nbsp;管理員</label>
                         </div>
                         <div class="radio">
                             <label><input type="radio" value="0" class="form-radio-input" name="user_type" id="userOrgTypeOwner">&nbsp;擁有者</label>

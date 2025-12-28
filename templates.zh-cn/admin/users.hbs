@@ -6,9 +6,12 @@
                 <thead>
                     <tr>
                         <th class="vw-account-details">用户</th>
-                        <th class="vw-created-at">创建时间</th>
+                        {{#if sso_enabled}}
+                        <th class="vw-sso-identifier">SSO 标识符</th>
+                        {{/if}}
+                        <th class="vw-created-at">创建于</th>
                         <th class="vw-last-active">最后活跃</th>
-                        <th class="vw-entries">条目数</th>
+                        <th class="vw-entries">条目</th>
                         <th class="vw-attachments">附件</th>
                         <th class="vw-organizations">组织</th>
                         <th class="vw-actions">操作</th>
@@ -30,7 +33,7 @@
                                         <span class="badge bg-success me-2" title="已启用双重认证">2FA</span>
                                     {{/if}}
                                     {{#case _status 1}}
-                                        <span class="badge bg-warning text-dark me-2" title="用户已邀请">已邀请</span>
+                                        <span class="badge bg-warning text-dark me-2" title="用户已被邀请">已邀请</span>
                                     {{/case}}
                                     {{#if emailVerified}}
                                         <span class="badge bg-success me-2" title="邮箱已验证">已验证</span>
@@ -38,6 +41,11 @@
                                 </span>
                             </div>
                         </td>
+                        {{#if ../sso_enabled}}
+                        <td>
+                            <span class="d-block">{{sso_identifier}}</span>
+                        </td>
+                        {{/if}}
                         <td>
                             <span class="d-block">{{created_at}}</span>
                         </td>
@@ -48,9 +56,9 @@
                             <span class="d-block">{{cipher_count}}</span>
                         </td>
                         <td>
-                            <span class="d-block"><strong>数量：</strong> {{attachment_count}}</span>
+                            <span class="d-block"><strong>数量:</strong> {{attachment_count}}</span>
                             {{#if attachment_count}}
-                            <span class="d-block"><strong>大小：</strong> {{attachment_size}}</span>
+                            <span class="d-block"><strong>大小:</strong> {{attachment_size}}</span>
                             {{/if}}
                         </td>
                         <td>
@@ -63,17 +71,20 @@
                         <td class="text-end px-1 small">
                             <span data-vw-user-uuid="{{id}}" data-vw-user-email="{{email}}">
                                 {{#if twoFactorEnabled}}
-                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-remove2fa>移除所有2FA</button><br>
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-remove2fa>移除所有 2FA</button><br>
                                 {{/if}}
-                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-deauth-user>注销会话</button><br>
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-deauth-user>撤销会话授权</button><br>
                                 <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-delete-user>删除用户</button><br>
+                                {{#if ../sso_enabled}}
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-delete-sso-user>删除 SSO 关联</button><br>
+                                {{/if}}
                                 {{#if user_enabled}}
                                 <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-disable-user>禁用用户</button><br>
                                 {{else}}
                                 <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-enable-user>启用用户</button><br>
                                 {{/if}}
                                 {{#case _status 1}}
-                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-resend-user-invite>重发邀请</button><br>
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-resend-user-invite>重新发送邀请</button><br>
                                 {{/case}}
                             </span>
                         </td>
@@ -85,7 +96,7 @@
 
         <div class="mt-3 clearfix">
             <button type="button" class="btn btn-sm btn-danger" id="updateRevisions"
-                title="强制所有客户端在下次连接时获取新数据。在恢复备份后使用可清除任何过时数据。">
+                title="强制所有客户端在下次连接时获取新数据。在恢复备份后使用以清除任何陈旧数据。">
                 强制客户端重新同步
             </button>
 
@@ -96,7 +107,7 @@
     <div id="inviteUserFormBlock" class="align-items-center p-3 mb-3 text-white-50 bg-secondary rounded shadow">
         <div>
             <h6 class="mb-0 text-white">邀请用户</h6>
-            <small>邮箱：</small>
+            <small>邮箱:</small>
 
             <form class="form-inline input-group w-50" id="inviteUserForm">
                 <input type="email" class="form-control me-2" id="inviteEmail" placeholder="输入邮箱" required spellcheck="false">
@@ -110,7 +121,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h6 class="modal-title">
-                        <b>更新用户类型：</b><br><b>组织：</b> <span id="userOrgTypeDialogOrgName"></span><br><b>用户：</b> <span id="userOrgTypeDialogUserEmail"></span>
+                        <b>更新用户类型:</b><br><b>组织:</b> <span id="userOrgTypeDialogOrgName"></span><br><b>用户:</b> <span id="userOrgTypeDialogUserEmail"></span>
                     </h6>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
                 </div>
@@ -119,13 +130,13 @@
                     <input type="hidden" name="org_uuid" id="userOrgTypeOrgUuid" value="">
                     <div class="modal-body">
                         <div class="radio">
-                            <label><input type="radio" value="2" class="form-radio-input" name="user_type" id="userOrgTypeUser">&nbsp;普通用户</label>
+                            <label><input type="radio" value="2" class="form-radio-input" name="user_type" id="userOrgTypeUser">&nbsp;用户</label>
                         </div>
                         <div class="radio">
                             <label><input type="radio" value="3" class="form-radio-input" name="user_type" id="userOrgTypeManager">&nbsp;管理员</label>
                         </div>
                         <div class="radio">
-                            <label><input type="radio" value="1" class="form-radio-input" name="user_type" id="userOrgTypeAdmin">&nbsp;超级管理员</label>
+                            <label><input type="radio" value="1" class="form-radio-input" name="user_type" id="userOrgTypeAdmin">&nbsp;管理员</label>
                         </div>
                         <div class="radio">
                             <label><input type="radio" value="0" class="form-radio-input" name="user_type" id="userOrgTypeOwner">&nbsp;所有者</label>

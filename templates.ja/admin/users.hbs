@@ -1,13 +1,16 @@
 <main class="container-xl">
     <div id="users-block" class="my-3 p-3 rounded shadow">
-        <h6 class="border-bottom pb-2 mb-3">登録ユーザー</h6>
+        <h6 class="border-bottom pb-2 mb-3">登録済みユーザー</h6>
         <div class="table-responsive-xl small">
             <table id="users-table" class="table table-sm table-striped table-hover">
                 <thead>
                     <tr>
                         <th class="vw-account-details">ユーザー</th>
+                        {{#if sso_enabled}}
+                        <th class="vw-sso-identifier">SSO Identifier</th>
+                        {{/if}}
                         <th class="vw-created-at">作成日時</th>
-                        <th class="vw-last-active">最終アクセス</th>
+                        <th class="vw-last-active">最終アクティブ</th>
                         <th class="vw-entries">エントリ数</th>
                         <th class="vw-attachments">添付ファイル</th>
                         <th class="vw-organizations">組織</th>
@@ -24,20 +27,25 @@
                                 <span class="d-block">{{email}}</span>
                                 <span class="d-block">
                                     {{#unless user_enabled}}
-                                        <span class="badge bg-danger me-2" title="ユーザーは無効化されています">無効</span>
+                                        <span class="badge bg-danger me-2" title="User is disabled">無効</span>
                                     {{/unless}}
                                     {{#if twoFactorEnabled}}
-                                        <span class="badge bg-success me-2" title="2FAが有効です">2FA</span>
+                                        <span class="badge bg-success me-2" title="2FA is enabled">2FA</span>
                                     {{/if}}
                                     {{#case _status 1}}
-                                        <span class="badge bg-warning text-dark me-2" title="ユーザーは招待中です">招待中</span>
+                                        <span class="badge bg-warning text-dark me-2" title="User is invited">招待中</span>
                                     {{/case}}
                                     {{#if emailVerified}}
-                                        <span class="badge bg-success me-2" title="メールアドレスが確認済みです">確認済み</span>
+                                        <span class="badge bg-success me-2" title="Email has been verified">確認済み</span>
                                     {{/if}}
                                 </span>
                             </div>
                         </td>
+                        {{#if ../sso_enabled}}
+                        <td>
+                            <span class="d-block">{{sso_identifier}}</span>
+                        </td>
+                        {{/if}}
                         <td>
                             <span class="d-block">{{created_at}}</span>
                         </td>
@@ -63,17 +71,20 @@
                         <td class="text-end px-1 small">
                             <span data-vw-user-uuid="{{id}}" data-vw-user-email="{{email}}">
                                 {{#if twoFactorEnabled}}
-                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-remove2fa>2FAを削除</button><br>
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-remove2fa>全2FAを削除</button><br>
                                 {{/if}}
                                 <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-deauth-user>セッションを無効化</button><br>
-                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-delete-user>ユーザー削除</button><br>
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-delete-user>ユーザーを削除</button><br>
+                                {{#if ../sso_enabled}}
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-delete-sso-user>SSO Associationを削除</button><br>
+                                {{/if}}
                                 {{#if user_enabled}}
-                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-disable-user>ユーザー無効化</button><br>
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-disable-user>ユーザーを無効化</button><br>
                                 {{else}}
-                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-enable-user>ユーザー有効化</button><br>
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-enable-user>ユーザーを有効化</button><br>
                                 {{/if}}
                                 {{#case _status 1}}
-                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-resend-user-invite>招待を再送</button><br>
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-resend-user-invite>招待を再送信</button><br>
                                 {{/case}}
                             </span>
                         </td>
@@ -85,7 +96,7 @@
 
         <div class="mt-3 clearfix">
             <button type="button" class="btn btn-sm btn-danger" id="updateRevisions"
-                title="次回接続時にすべてのクライアントに新しいデータを強制的に取得させます。バックアップ復元後、古いデータを削除するのに便利です。">
+                title="Force all clients to fetch new data next time they connect. Useful after restoring a backup to remove any stale data.">
                 クライアントに再同期を強制
             </button>
 
