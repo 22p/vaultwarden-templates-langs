@@ -1,45 +1,45 @@
 <main class="container-xl">
     <div id="diagnostics-block" class="my-3 p-3 rounded shadow">
-        <h6 class="border-bottom pb-2 mb-2">진단 정보</h6>
+        <h6 class="border-bottom pb-2 mb-2">진단</h6>
 
-        <h3>버전 정보</h3>
+        <h3>버전</h3>
         <div class="row">
             <div class="col-md">
                 <dl class="row">
-                    <dt class="col-sm-5">서버 설치 버전
-                        <span class="badge bg-success d-none abbr-badge" id="server-success" title="최신 버전이 설치되어 있습니다.">정상</span>
-                        <span class="badge bg-warning text-dark d-none abbr-badge" id="server-warning" title="업데이트가 가능한 것으로 보입니다.">업데이트</span>
-                        <span class="badge bg-info text-dark d-none abbr-badge" id="server-branch" title="이 버전은 브랜치 버전입니다.">브랜치</span>
+                    <dt class="col-sm-5">서버 설치됨
+                        <span class="badge bg-success d-none abbr-badge" id="server-success" title="최신 버전이 설치되어 있습니다.">Ok</span>
+                        <span class="badge bg-warning text-dark d-none abbr-badge" id="server-warning" title="업데이트가 있을 수 있습니다.">업데이트</span>
+                        <span class="badge bg-info text-dark d-none abbr-badge" id="server-branch" title="이것은 분기된 버전입니다.">분기됨</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="server-installed">{{page_data.current_release}}</span>
                     </dd>
-                    <dt class="col-sm-5">서버 최신 버전
+                    <dt class="col-sm-5">서버 최신
                         <span class="badge bg-secondary d-none abbr-badge" id="server-failed" title="최신 버전을 확인할 수 없습니다.">알 수 없음</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="server-latest">{{page_data.latest_release}}<span id="server-latest-commit" class="d-none">-{{page_data.latest_commit}}</span></span>
                     </dd>
                     {{#if page_data.web_vault_enabled}}
-                    <dt class="col-sm-5">웹 설치 버전
-                        <span class="badge bg-success d-none abbr-badge" id="web-success" title="최신 버전이 설치되어 있습니다.">정상</span>
-                        <span class="badge bg-warning text-dark d-none abbr-badge" id="web-warning" title="업데이트가 가능한 것으로 보입니다.">업데이트</span>
-                        <span class="badge bg-info text-dark d-none abbr-badge" id="web-prerelease" title="사전 릴리스 버전을 사용 중인 것으로 보입니다.">사전 릴리스</span>
+                    <dt class="col-sm-5">웹 설치됨
+                        <span class="badge bg-success d-none abbr-badge" id="web-success" title="최신 버전이 설치되어 있습니다.">Ok</span>
+                        <span class="badge bg-warning text-dark d-none abbr-badge" id="web-warning" title="업데이트가 있을 수 있습니다.">업데이트</span>
+                        <span class="badge bg-info text-dark d-none abbr-badge" id="web-prerelease" title="사전 릴리스 버전을 사용 중인 것 같습니다.">사전 릴리스</span>
                     </dt>
                     <dd class="col-sm-7">
-                        <span id="web-installed">{{page_data.web_vault_version}}</span>
+                        <span id="web-installed">{{page_data.active_web_release}}</span>
                     </dd>
-                    <dt class="col-sm-5">웹 최신 버전
+                    <dt class="col-sm-5">웹 최신
                         <span class="badge bg-secondary d-none abbr-badge" id="web-failed" title="최신 버전을 확인할 수 없습니다.">알 수 없음</span>
                     </dt>
                     <dd class="col-sm-7">
-                        <span id="web-latest">{{page_data.latest_web_build}}</span>
+                        <span id="web-latest">{{page_data.latest_web_release}}</span>
                     </dd>
                     {{/if}}
                     {{#unless page_data.web_vault_enabled}}
-                    <dt class="col-sm-5">웹 설치 버전</dt>
+                    <dt class="col-sm-5">웹 설치됨</dt>
                     <dd class="col-sm-7">
-                        <span id="web-installed">웹 볼트가 비활성화되었습니다</span>
+                        <span id="web-installed">웹 볼트가 비활성화됨</span>
                     </dd>
                     {{/unless}}
                     <dt class="col-sm-5">데이터베이스</dt>
@@ -54,14 +54,14 @@
         <div class="row">
             <div class="col-md">
                 <dl class="row">
-                    <dt class="col-sm-5">운영체제/아키텍처</dt>
+                    <dt class="col-sm-5">OS/아키텍처</dt>
                     <dd class="col-sm-7">
                         <span class="d-block"><b>{{ page_data.host_os }} / {{ page_data.host_arch }}</b></span>
                     </dd>
-                    <dt class="col-sm-5">컨테이너 내 실행 중</dt>
+                    <dt class="col-sm-5">컨테이너 내에서 실행 중</dt>
                     <dd class="col-sm-7">
                     {{#if page_data.running_within_container}}
-                        <span class="d-block"><b>예 (기본 이미지: {{ page_data.container_base_image }})</b></span>
+                        <span class="d-block"><b>예 (기본: {{ page_data.container_base_image }})</b></span>
                     {{/if}}
                     {{#unless page_data.running_within_container}}
                         <span class="d-block"><b>아니오</b></span>
@@ -71,7 +71,7 @@
                     <dd class="col-sm-7">
                     {{#if page_data.overrides}}
                         <span class="d-inline"><b>예</b></span>
-                        <span class="badge bg-info text-dark abbr-badge" title="환경 변수가 config.json에 의해 덮어쓰여졌습니다.&#013;&#010;{{page_data.overrides}}">상세 정보</span>
+                        <span class="badge bg-info text-dark abbr-badge" title="환경 변수가 config.json에 의해 덮어쓰여졌습니다.&#013;&#010;{{page_data.overrides}}">세부 정보</span>
                     {{/if}}
                     {{#unless page_data.overrides}}
                         <span class="d-block"><b>아니오</b></span>
@@ -90,10 +90,10 @@
                     {{#if page_data.ip_header_exists}}
                     <dt class="col-sm-5">IP 헤더
                     {{#if page_data.ip_header_match}}
-                        <span class="badge bg-success abbr-badge" title="IP_HEADER 설정이 유효한 것으로 보입니다.">일치</span>
+                        <span class="badge bg-success abbr-badge" title="IP_HEADER 설정이 유효한 것 같습니다.">일치</span>
                     {{/if}}
                     {{#unless page_data.ip_header_match}}
-                        <span class="badge bg-danger abbr-badge" title="IP_HEADER 설정이 유효하지 않은 것으로 보입니다. 로그의 IP 주소가 잘못될 수 있습니다. 수정해 주세요.">불일치</span>
+                        <span class="badge bg-danger abbr-badge" title="IP_HEADER 설정이 유효하지 않은 것 같습니다. 로그의 IP가 잘못될 수 있습니다. 수정해 주세요.">불일치</span>
                     {{/unless}}
                     </dt>
                     <dd class="col-sm-7">
@@ -106,13 +106,13 @@
                     {{/unless}}
                     </dd>
                     {{/if}}
-                    {{!-- IP 헤더 존재 여부 종료 --}}
+                    {{!-- IP 헤더 존재 종료 --}}
                     <dt class="col-sm-5">인터넷 접속
                     {{#if page_data.has_http_access}}
-                        <span class="badge bg-success abbr-badge" title="인터넷에 접속할 수 있습니다!">정상</span>
+                        <span class="badge bg-success abbr-badge" title="인터넷에 접속할 수 있습니다!">Ok</span>
                     {{/if}}
                     {{#unless page_data.has_http_access}}
-                        <span class="badge bg-danger abbr-badge" title="인터넷에 접속할 수 없는 것으로 보입니다. 수정해 주세요.">오류</span>
+                        <span class="badge bg-danger abbr-badge" title="인터넷 접속이 없는 것 같습니다. 수정해 주세요.">오류</span>
                     {{/unless}}
                     </dt>
                     <dd class="col-sm-7">
@@ -129,12 +129,12 @@
                         <span class="d-block" title="인터넷 접속이 프록시를 통해 이루어집니다 (HTTPS_PROXY 또는 HTTP_PROXY가 설정됨)."><b>예</b></span>
                     {{/if}}
                     {{#unless page_data.uses_proxy}}
-                        <span class="d-block" title="직접 인터넷에 접속하며, 나가는 프록시가 설정되지 않았습니다."><b>아니오</b></span>
+                        <span class="d-block" title="직접 인터넷 접속이 가능하며, 나가는 프록시가 설정되지 않았습니다."><b>아니오</b></span>
                     {{/unless}}
                     </dd>
-                    <dt class="col-sm-5">웹소켓 활성화
+                    <dt class="col-sm-5">웹소켓 활성화됨
                         {{#if page_data.enable_websocket}}
-                        <span class="badge bg-success d-none abbr-badge" id="websocket-success" title="웹소켓 연결이 정상적으로 작동합니다.">정상</span>
+                        <span class="badge bg-success d-none abbr-badge" id="websocket-success" title="웹소켓 연결이 작동합니다.">Ok</span>
                         <span class="badge bg-danger d-none abbr-badge" id="websocket-error" title="웹소켓 연결 오류, 리버스 프록시 설정을 확인하세요!">오류</span>
                         {{/if}}
                     </dt>
@@ -148,26 +148,26 @@
                     </dd>
 
                     <dt class="col-sm-5">DNS (github.com)
-                        <span class="badge bg-success d-none abbr-badge" id="dns-success" title="DNS 확인이 작동합니다!">정상</span>
+                        <span class="badge bg-success d-none abbr-badge" id="dns-success" title="DNS 확인이 작동합니다!">Ok</span>
                         <span class="badge bg-danger d-none abbr-badge" id="dns-warning" title="DNS 확인에 실패했습니다. 수정해 주세요.">오류</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="dns-resolved">{{page_data.dns_resolved}}</span>
                     </dd>
-                    <dt class="col-sm-5">날짜 및 시간 (현지 시간)
+                    <dt class="col-sm-5">날짜 및 시간 (현지)
                         {{#if page_data.tz_env}}
-                            <span class="badge bg-success abbr-badge" title="TZ 환경 변수가 설정되었습니다">{{page_data.tz_env}}</span>
+                            <span class="badge bg-success abbr-badge" title="설정된 TZ 환경 변수">{{page_data.tz_env}}</span>
                         {{/if}}
                     </dt>
                     <dd class="col-sm-7">
                         <span><b>서버:</b> {{page_data.server_time_local}}</span>
                     </dd>
                     <dt class="col-sm-5">날짜 및 시간 (UTC)
-                        <span class="badge bg-success d-none abbr-badge" id="time-success" title="서버와 브라우저 시간이 15초 이내로 일치합니다.">서버/브라우저 정상</span>
+                        <span class="badge bg-success d-none abbr-badge" id="time-success" title="서버와 브라우저 시간이 15초 이내로 일치합니다.">서버/브라우저 Ok</span>
                         <span class="badge bg-danger d-none abbr-badge" id="time-warning" title="서버와 브라우저 시간이 15초 이상 차이납니다.">서버/브라우저 오류</span>
-                        <span class="badge bg-success d-none abbr-badge" id="ntp-server-success" title="서버와 NTP 시간이 15초 이내로 일치합니다.">서버 NTP 정상</span>
+                        <span class="badge bg-success d-none abbr-badge" id="ntp-server-success" title="서버와 NTP 시간이 15초 이내로 일치합니다.">서버 NTP Ok</span>
                         <span class="badge bg-danger d-none abbr-badge" id="ntp-server-warning" title="서버와 NTP 시간이 15초 이상 차이납니다.">서버 NTP 오류</span>
-                        <span class="badge bg-success d-none abbr-badge" id="ntp-browser-success" title="브라우저와 NTP 시간이 15초 이내로 일치합니다.">브라우저 NTP 정상</span>
+                        <span class="badge bg-success d-none abbr-badge" id="ntp-browser-success" title="브라우저와 NTP 시간이 15초 이내로 일치합니다.">브라우저 NTP Ok</span>
                         <span class="badge bg-danger d-none abbr-badge" id="ntp-browser-warning" title="브라우저와 NTP 시간이 15초 이상 차이납니다.">브라우저 NTP 오류</span>
                     </dt>
                     <dd class="col-sm-7">
@@ -177,9 +177,9 @@
                     </dd>
 
                     <dt class="col-sm-5">도메인 설정
-                        <span class="badge bg-success d-none abbr-badge" id="domain-success" title="도메인 변수가 브라우저 위치와 일치하며 올바르게 설정된 것으로 보입니다.">일치</span>
-                        <span class="badge bg-danger d-none abbr-badge" id="domain-warning" title="도메인 변수가 브라우저 위치와 일치하지 않습니다.&#013;&#010;도메인 변수가 올바르게 설정되지 않은 것으로 보입니다.&#013;&#010;일부 기능이 예상대로 작동하지 않을 수 있습니다!">불일치</span>
-                        <span class="badge bg-success d-none abbr-badge" id="https-success" title="HTTPS 사용으로 설정되었습니다">HTTPS</span>
+                        <span class="badge bg-success d-none abbr-badge" id="domain-success" title="도메인 변수가 브라우저 위치와 일치하며 올바르게 설정된 것 같습니다.">일치</span>
+                        <span class="badge bg-danger d-none abbr-badge" id="domain-warning" title="도메인 변수가 브라우저 위치와 일치하지 않습니다.&#013;&#010;도메인 변수가 올바르게 설정되지 않은 것 같습니다.&#013;&#010;일부 기능이 예상대로 작동하지 않을 수 있습니다!">불일치</span>
+                        <span class="badge bg-success d-none abbr-badge" id="https-success" title="HTTPS 사용으로 설정됨">HTTPS</span>
                         <span class="badge bg-danger d-none abbr-badge" id="https-warning" title="HTTPS 사용으로 설정되지 않았습니다.&#013;&#010;일부 기능이 예상대로 작동하지 않을 수 있습니다!">HTTPS 없음</span>
                     </dt>
                     <dd class="col-sm-7">
@@ -188,8 +188,8 @@
                     </dd>
 
                     <dt class="col-sm-5">HTTP 응답 검증
-                        <span class="badge bg-success d-none abbr-badge" id="http-response-success" title="모든 헤더와 HTTP 요청 응답이 정상적인 것으로 보입니다.">정상</span>
-                        <span class="badge bg-danger d-none abbr-badge" id="http-response-warning" title="일부 헤더 또는 HTTP 요청 응답이 유효하지 않은 데이터를 반환합니다!">오류</span>
+                        <span class="badge bg-success d-none abbr-badge" id="http-response-success" title="모든 헤더와 HTTP 요청 응답이 정상인 것 같습니다.">Ok</span>
+                        <span class="badge bg-danger d-none abbr-badge" id="http-response-warning" title="일부 헤더 또는 HTTP 요청 응답이 잘못된 데이터를 반환합니다!">오류</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="http-response-errors" class="d-block"></span>
@@ -203,7 +203,7 @@
             <div class="col-md">
                 <dl class="row">
                     <dd class="col-sm-12">
-                        지원이 필요한 경우, 새 문제를 생성하기 전에 먼저 다음 링크를 확인해 주세요:
+                        지원이 필요하시면 새 문제를 생성하기 전에 다음 링크를 먼저 확인해 주세요:
                          <a href="https://vaultwarden.discourse.group/" target="_blank" rel="noreferrer noopener">Vaultwarden 포럼</a>
                          | <a href="https://github.com/dani-garcia/vaultwarden/discussions" target="_blank" rel="noreferrer noopener">Github 토론</a>
                     </dd>
@@ -211,7 +211,7 @@
                 <dl class="row">
                     <dd class="col-sm-12">
                         아래 버튼을 사용하여 포럼이나 Github에서 새 문제를 생성할 때 복사/붙여넣기할 수 있는 문자열을 미리 생성할 수 있습니다.<br>
-                        생성된 지원 문자열에서 가장 민감한 값들은 기본적으로 숨기려고 노력하지만, 숨기고 싶은 내용이 없는지 확인해 주세요!<br>
+                        생성된 지원 문자열에서 가장 민감한 값들을 기본적으로 숨기려고 노력하지만, 숨기고 싶은 내용이 없는지 확인해 주세요!<br>
                     </dd>
                 </dl>
                 <dl class="row">
