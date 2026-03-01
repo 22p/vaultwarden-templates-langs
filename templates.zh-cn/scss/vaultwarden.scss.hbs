@@ -4,7 +4,7 @@
   display: none !important;
 }
 
-/* 这允许在浏览器的开发者工具中搜索合并后的样式（查看 head 标签） */
+/* 这允许在浏览器的开发者工具中搜索合并的样式（查看 head 标签） */
 .vw-hide,
 head {
   @extend %vw-hide;
@@ -89,7 +89,7 @@ app-root ng-component > form > div:nth-child(1) > div:nth-child(3) > div:nth-chi
 }
 {{/if}}
 
-/* 在组织设置中隐藏双因素认证菜单 */
+/* 隐藏组织设置中的双因素认证菜单 */
 bit-nav-item[route="settings/two-factor"],
 a[href$="/settings/two-factor"] {
   @extend %vw-hide;
@@ -110,7 +110,7 @@ app-org-reports-home > app-report-list > div.tw-inline-grid > div:nth-child(6) {
   @extend %vw-hide;
 }
 
-/* 在两步登录屏幕隐藏设备验证表单 */
+/* 隐藏两步登录屏幕上的设备验证表单 */
 app-security > app-two-factor-setup > form {
   @extend %vw-hide;
 }
@@ -133,17 +133,17 @@ bit-nav-logo bit-nav-item a:before {
 bit-nav-logo bit-nav-item .bwi-shield {
   @extend %vw-hide;
 }
-/* 在用户设置页面隐藏设备登录保护按钮 */
+/* 隐藏用户设置页面上的设备登录保护按钮 */
 app-user-layout app-danger-zone button:nth-child(1) {
   @extend %vw-hide;
 }
 /**** 结束静态 Vaultwarden 更改 ****/
 /**** 开始动态 Vaultwarden 更改 ****/
 {{#if signup_disabled}}
-/* 从 Web 保管库 2025.1.2 及更高版本开始，当注册被禁用时，注册按钮会被隐藏，
-  因为 Web 保管库会检查 /api/config 端点。
+/* 从 web vault 2025.1.2 及更高版本开始，当注册被禁用时，注册按钮会被隐藏，
+  因为 web vault 会检查 /api/config 端点。
   请注意，客户端倾向于缓存此端点约 1 小时，因此更改可能需要一段时间才能生效。
-  为避免按钮在不应该出现时出现，我们将在几个版本中保留此样式 */
+  为避免按钮在不应该出现时出现，我们将此样式保留几个版本 */
 /* 隐藏登录屏幕上的注册链接 */
 {{#if (webver "<2025.3.0")}}
 app-login form div + div + div + div + hr,
@@ -155,6 +155,13 @@ app-root a[routerlink="/signup"] {
   @extend %vw-hide;
 }
 {{/if}}
+{{/if}}
+
+{{#if remember_2fa_disabled}}
+/* 隐藏记住 2FA 令牌 30 天的复选框 */
+app-two-factor-auth > form > bit-form-control {
+  @extend %vw-hide;
+}
 {{/if}}
 
 {{#unless mail_2fa_enabled}}
@@ -186,8 +193,21 @@ bit-nav-item[route="settings/emergency-access"] {
 {{/unless}}
 
 {{#unless sends_allowed}}
-/* 如果不允许，则隐藏 Send */
+/* 如果不允许，则隐藏发送 */
 bit-nav-item[route="sends"] {
+  @extend %vw-hide;
+}
+{{/unless}}
+
+{{#unless password_hints_allowed}}
+/* 如果不允许，则隐藏密码提示 */
+a[routerlink="/hint"],
+{{#if (webver "<2025.12.2")}}
+app-change-password > form > .form-group:nth-child(5),
+auth-input-password > form > bit-form-field:nth-child(4) {
+{{else}}
+.vw-password-hint {
+{{/if}}
   @extend %vw-hide;
 }
 {{/unless}}

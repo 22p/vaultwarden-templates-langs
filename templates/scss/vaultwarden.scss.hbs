@@ -158,6 +158,13 @@ app-root a[routerlink="/signup"] {
 {{/if}}
 {{/if}}
 
+{{#if remember_2fa_disabled}}
+/* Hide checkbox to remember 2FA token for 30 days */
+app-two-factor-auth > form > bit-form-control {
+  @extend %vw-hide;
+}
+{{/if}}
+
 {{#unless mail_2fa_enabled}}
 /* Hide `Email` 2FA if mail is not enabled */
 .providers-2fa-1 {
@@ -189,6 +196,19 @@ bit-nav-item[route="settings/emergency-access"] {
 {{#unless sends_allowed}}
 /* Hide Sends if not allowed */
 bit-nav-item[route="sends"] {
+  @extend %vw-hide;
+}
+{{/unless}}
+
+{{#unless password_hints_allowed}}
+/* Hide password hints if not allowed */
+a[routerlink="/hint"],
+{{#if (webver "<2025.12.2")}}
+app-change-password > form > .form-group:nth-child(5),
+auth-input-password > form > bit-form-field:nth-child(4) {
+{{else}}
+.vw-password-hint {
+{{/if}}
   @extend %vw-hide;
 }
 {{/unless}}

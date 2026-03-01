@@ -157,6 +157,13 @@ app-root a[routerlink="/signup"] {
 {{/if}}
 {{/if}}
 
+{{#if remember_2fa_disabled}}
+/* 2FAトークンを30日間記憶するチェックボックスを非表示にします */
+app-two-factor-auth > form > bit-form-control {
+  @extend %vw-hide;
+}
+{{/if}}
+
 {{#unless mail_2fa_enabled}}
 /* メールが有効でない場合、`Email` 2FA を非表示にします */
 .providers-2fa-1 {
@@ -188,6 +195,19 @@ bit-nav-item[route="settings/emergency-access"] {
 {{#unless sends_allowed}}
 /* 許可されていない場合、Sends を非表示にします */
 bit-nav-item[route="sends"] {
+  @extend %vw-hide;
+}
+{{/unless}}
+
+{{#unless password_hints_allowed}}
+/* 許可されていない場合、パスワードヒントを非表示にします */
+a[routerlink="/hint"],
+{{#if (webver "<2025.12.2")}}
+app-change-password > form > .form-group:nth-child(5),
+auth-input-password > form > bit-form-field:nth-child(4) {
+{{else}}
+.vw-password-hint {
+{{/if}}
   @extend %vw-hide;
 }
 {{/unless}}

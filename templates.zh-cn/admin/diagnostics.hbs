@@ -8,7 +8,7 @@
                 <dl class="row">
                     <dt class="col-sm-5">服务器已安装
                         <span class="badge bg-success d-none abbr-badge" id="server-success" title="已安装最新版本。">正常</span>
-                        <span class="badge bg-warning text-dark d-none abbr-badge" id="server-warning" title="似乎有可用更新。">更新</span>
+                        <span class="badge bg-warning text-dark d-none abbr-badge" id="server-warning" title="有可用更新。">更新</span>
                         <span class="badge bg-info text-dark d-none abbr-badge" id="server-branch" title="这是一个分支版本。">分支</span>
                     </dt>
                     <dd class="col-sm-7">
@@ -23,8 +23,8 @@
                     {{#if page_data.web_vault_enabled}}
                     <dt class="col-sm-5">网页版已安装
                         <span class="badge bg-success d-none abbr-badge" id="web-success" title="已安装最新版本。">正常</span>
-                        <span class="badge bg-warning text-dark d-none abbr-badge" id="web-warning" title="似乎有可用更新。">更新</span>
-                        <span class="badge bg-info text-dark d-none abbr-badge" id="web-prerelease" title="您似乎在使用预发布版本。">预发布</span>
+                        <span class="badge bg-warning text-dark d-none abbr-badge" id="web-warning" title="有可用更新。">更新</span>
+                        <span class="badge bg-info text-dark d-none abbr-badge" id="web-prerelease" title="您正在使用预发布版本。">预发布</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="web-installed">{{page_data.active_web_release}}</span>
@@ -106,7 +106,7 @@
                     {{/unless}}
                     </dd>
                     {{/if}}
-                    {{!-- 结束 IP 头存在判断 --}}
+                    {{!-- IP 头存在结束 --}}
                     <dt class="col-sm-5">互联网访问
                     {{#if page_data.has_http_access}}
                         <span class="badge bg-success abbr-badge" title="我们有互联网访问权限！">正常</span>
@@ -154,7 +154,7 @@
                     <dd class="col-sm-7">
                         <span id="dns-resolved">{{page_data.dns_resolved}}</span>
                     </dd>
-                    <dt class="col-sm-5">日期与时间 (本地)
+                    <dt class="col-sm-5">日期和时间 (本地)
                         {{#if page_data.tz_env}}
                             <span class="badge bg-success abbr-badge" title="已配置 TZ 环境变量">{{page_data.tz_env}}</span>
                         {{/if}}
@@ -162,7 +162,7 @@
                     <dd class="col-sm-7">
                         <span><b>服务器:</b> {{page_data.server_time_local}}</span>
                     </dd>
-                    <dt class="col-sm-5">日期与时间 (UTC)
+                    <dt class="col-sm-5">日期和时间 (UTC)
                         <span class="badge bg-success d-none abbr-badge" id="time-success" title="服务器和浏览器时间相差在 15 秒内。">服务器/浏览器 正常</span>
                         <span class="badge bg-danger d-none abbr-badge" id="time-warning" title="服务器和浏览器时间相差超过 15 秒。">服务器/浏览器 错误</span>
                         <span class="badge bg-success d-none abbr-badge" id="ntp-server-success" title="服务器和 NTP 时间相差在 15 秒内。">服务器 NTP 正常</span>
@@ -211,7 +211,7 @@
                 <dl class="row">
                     <dd class="col-sm-12">
                         您可以使用下面的按钮预生成一个字符串，您可以将其复制/粘贴到论坛或在 Github 创建新问题时使用。<br>
-                        我们默认尝试从生成的支持字符串中隐藏最敏感的值，但请验证其中是否包含您想隐藏的内容！<br>
+                        我们默认会尝试从生成的支持字符串中隐藏最敏感的值，但请验证其中是否包含您想隐藏的内容！<br>
                     </dd>
                 </dl>
                 <dl class="row">

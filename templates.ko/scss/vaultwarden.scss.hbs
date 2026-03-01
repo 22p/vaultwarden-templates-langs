@@ -4,7 +4,7 @@
   display: none !important;
 }
 
-/* 이 부분은 브라우저 개발자 도구에서 결합된 스타일을 검색할 수 있게 합니다 (head 태그 안을 확인하세요) */
+/* 이 부분은 브라우저 개발자 도구에서 결합된 스타일을 검색할 수 있게 합니다 (head 태그 안을 보세요) */
 .vw-hide,
 head {
   @extend %vw-hide;
@@ -27,21 +27,21 @@ a[href$="/settings/sponsored-families"] {
 }
 {{/if}}
 
-/* 기본/계속하기 `이메일` 입력 필드 숨기기 */
+/* 기본/계속 `이메일` 입력 필드 숨기기 */
 {{#if sso_enabled}}
 .vw-email-continue {
   @extend %vw-hide;
 }
 {{/if}}
 
-/* 로그인 페이지의 `계속하기` 버튼 숨기기 */
+/* 로그인 페이지의 `계속` 버튼 숨기기 */
 {{#if sso_enabled}}
 .vw-continue-login {
   @extend %vw-hide;
 }
 {{/if}}
 
-/* 로그인 페이지의 `엔터프라이즈 단일 사인온` 버튼 숨기기 */
+/* 로그인 페이지의 `엔터프라이즈 Single Sign-On` 버튼 숨기기 */
 {{#if (webver ">=2025.5.1")}}
 {{#if (not sso_enabled)}}
 .vw-sso-login {
@@ -110,7 +110,7 @@ app-org-reports-home > app-report-list > div.tw-inline-grid > div:nth-child(6) {
   @extend %vw-hide;
 }
 
-/* 2단계 로그인 화면의 기기 확인 양식 숨기기 */
+/* 2단계 로그인 화면의 장치 확인 양식 숨기기 */
 app-security > app-two-factor-setup > form {
   @extend %vw-hide;
 }
@@ -133,16 +133,18 @@ bit-nav-logo bit-nav-item a:before {
 bit-nav-logo bit-nav-item .bwi-shield {
   @extend %vw-hide;
 }
-/* 사용자 설정 페이지의 기기 로그인 보호 버튼 숨기기 */
+/* 사용자 설정 페이지의 장치 로그인 보호 버튼 숨기기 */
 app-user-layout app-danger-zone button:nth-child(1) {
   @extend %vw-hide;
 }
 /**** END Static Vaultwarden Changes ****/
 /**** START Dynamic Vaultwarden Changes ****/
 {{#if signup_disabled}}
-/* 웹 볼트 2025.1.2 이상부터, 가입이 비활성화되면 웹 볼트가 /api/config 엔드포인트를 확인하여 가입 버튼이 숨겨집니다.
-  클라이언트는 이 엔드포인트를 약 1시간 동안 캐시하는 경향이 있으므로 변경 사항이 적용되기까지 시간이 걸릴 수 있습니다.
-  버튼이 나타나지 않아야 할 때 나타나는 것을 방지하기 위해, 몇 버전 동안 이 스타일을 유지하겠습니다 */
+/* 웹 볼트 2025.1.2 이상부터, 가입이 비활성화되면 가입 버튼이 숨겨집니다.
+  웹 볼트가 /api/config 엔드포인트를 확인하기 때문입니다.
+  클라이언트는 이 엔드포인트를 약 1시간 동안 캐시하는 경향이 있으므로,
+  변경 사항이 적용되기까지 시간이 걸릴 수 있습니다. 버튼이 나타나지 않아야 할 때
+  나타나는 것을 방지하기 위해, 몇 버전 동안 이 스타일을 유지하겠습니다 */
 /* 로그인 화면의 등록 링크 숨기기 */
 {{#if (webver "<2025.3.0")}}
 app-login form div + div + div + div + hr,
@@ -154,6 +156,13 @@ app-root a[routerlink="/signup"] {
   @extend %vw-hide;
 }
 {{/if}}
+{{/if}}
+
+{{#if remember_2fa_disabled}}
+/* 2FA 토큰을 30일 동안 기억하는 확인란 숨기기 */
+app-two-factor-auth > form > bit-form-control {
+  @extend %vw-hide;
+}
 {{/if}}
 
 {{#unless mail_2fa_enabled}}
@@ -178,15 +187,28 @@ app-root a[routerlink="/signup"] {
 {{/unless}}
 
 {{#unless emergency_access_allowed}}
-/* 허용되지 않은 경우 긴급 접근 숨기기 */
+/* 허용되지 않는 경우 비상 접근 숨기기 */
 bit-nav-item[route="settings/emergency-access"] {
   @extend %vw-hide;
 }
 {{/unless}}
 
 {{#unless sends_allowed}}
-/* 허용되지 않은 경우 Send 숨기기 */
+/* 허용되지 않는 경우 Send 숨기기 */
 bit-nav-item[route="sends"] {
+  @extend %vw-hide;
+}
+{{/unless}}
+
+{{#unless password_hints_allowed}}
+/* 허용되지 않는 경우 비밀번호 힌트 숨기기 */
+a[routerlink="/hint"],
+{{#if (webver "<2025.12.2")}}
+app-change-password > form > .form-group:nth-child(5),
+auth-input-password > form > bit-form-field:nth-child(4) {
+{{else}}
+.vw-password-hint {
+{{/if}}
   @extend %vw-hide;
 }
 {{/unless}}
