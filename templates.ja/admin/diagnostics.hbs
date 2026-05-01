@@ -6,40 +6,40 @@
         <div class="row">
             <div class="col-md">
                 <dl class="row">
-                    <dt class="col-sm-5">サーバー インストール済み
-                        <span class="badge bg-success d-none abbr-badge" id="server-success" title="最新バージョンがインストールされています。">Ok</span>
+                    <dt class="col-sm-5">サーバーインストール
+                        <span class="badge bg-success d-none abbr-badge" id="server-success" title="最新バージョンがインストールされています。">正常</span>
                         <span class="badge bg-warning text-dark d-none abbr-badge" id="server-warning" title="アップデートが利用可能です。">更新</span>
-                        <span class="badge bg-info text-dark d-none abbr-badge" id="server-branch" title="これはブランチバージョンです。">ブランチ</span>
+                        <span class="badge bg-info text-dark d-none abbr-badge" id="server-branch" title="これはブランチ版です。">ブランチ</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="server-installed">{{page_data.current_release}}</span>
                     </dd>
-                    <dt class="col-sm-5">サーバー 最新
-                        <span class="badge bg-secondary d-none abbr-badge" id="server-failed" title="最新バージョンを確認できません。">不明</span>
+                    <dt class="col-sm-5">サーバー最新
+                        <span class="badge bg-secondary d-none abbr-badge" id="server-failed" title="最新バージョンを特定できません。">不明</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="server-latest">{{page_data.latest_release}}<span id="server-latest-commit" class="d-none">-{{page_data.latest_commit}}</span></span>
                     </dd>
                     {{#if page_data.web_vault_enabled}}
-                    <dt class="col-sm-5">Web インストール済み
-                        <span class="badge bg-success d-none abbr-badge" id="web-success" title="最新バージョンがインストールされています。">Ok</span>
+                    <dt class="col-sm-5">Webインストール
+                        <span class="badge bg-success d-none abbr-badge" id="web-success" title="最新バージョンがインストールされています。">正常</span>
                         <span class="badge bg-warning text-dark d-none abbr-badge" id="web-warning" title="アップデートが利用可能です。">更新</span>
-                        <span class="badge bg-info text-dark d-none abbr-badge" id="web-prerelease" title="プレリリースバージョンを使用しています。">プレリリース</span>
+                        <span class="badge bg-info text-dark d-none abbr-badge" id="web-prerelease" title="プレリリース版を使用しています。">プレリリース</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="web-installed">{{page_data.active_web_release}}</span>
                     </dd>
-                    <dt class="col-sm-5">Web 最新
-                        <span class="badge bg-secondary d-none abbr-badge" id="web-failed" title="最新バージョンを確認できません。">不明</span>
+                    <dt class="col-sm-5">Web最新
+                        <span class="badge bg-secondary d-none abbr-badge" id="web-failed" title="最新バージョンを特定できません。">不明</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="web-latest">{{page_data.latest_web_release}}</span>
                     </dd>
                     {{/if}}
                     {{#unless page_data.web_vault_enabled}}
-                    <dt class="col-sm-5">Web インストール済み</dt>
+                    <dt class="col-sm-5">Webインストール</dt>
                     <dd class="col-sm-7">
-                        <span id="web-installed">Web Vault は無効です</span>
+                        <span id="web-installed">Web保管庫は無効です</span>
                     </dd>
                     {{/unless}}
                     <dt class="col-sm-5">データベース</dt>
@@ -67,52 +67,50 @@
                         <span class="d-block"><b>いいえ</b></span>
                     {{/unless}}
                     </dd>
-                    <dt class="col-sm-5">config.json を使用</dt>
+                    <dt class="col-sm-5">config.json使用</dt>
                     <dd class="col-sm-7">
                     {{#if page_data.overrides}}
                         <span class="d-inline"><b>はい</b></span>
-                        <span class="badge bg-info text-dark abbr-badge" title="環境変数が config.json によって上書きされています。&#013;&#010;{{page_data.overrides}}">詳細</span>
+                        <span class="badge bg-info text-dark abbr-badge" title="環境変数がconfig.jsonで上書きされています。&#013;&#010;{{page_data.overrides}}">詳細</span>
                     {{/if}}
                     {{#unless page_data.overrides}}
                         <span class="d-block"><b>いいえ</b></span>
                     {{/unless}}
                     </dd>
-                    <dt class="col-sm-5">リバースプロキシを使用</dt>
+                    <dt class="col-sm-5">リバースプロキシ使用</dt>
                     <dd class="col-sm-7">
                     {{#if page_data.ip_header_exists}}
-                        <span class="d-block" title="IP ヘッダーが見つかりました。"><b>はい</b></span>
+                        <span class="d-block" title="IPヘッダーが見つかりました。"><b>はい</b></span>
                     {{/if}}
                     {{#unless page_data.ip_header_exists}}
-                        <span class="d-block" title="IP ヘッダーが見つかりませんでした。"><b>いいえ</b></span>
+                        <span class="d-block" title="IPヘッダーが見つかりません。"><b>いいえ</b></span>
                     {{/unless}}
                     </dd>
-                    {{!-- IP ヘッダーが存在する場合のみ表示 --}}
                     {{#if page_data.ip_header_exists}}
-                    <dt class="col-sm-5">IP ヘッダー
+                    <dt class="col-sm-5">IPヘッダー
                     {{#if page_data.ip_header_match}}
-                        <span class="badge bg-success abbr-badge" title="IP_HEADER 設定は有効と思われます。">一致</span>
+                        <span class="badge bg-success abbr-badge" title="IP_HEADER設定は有効のようです。">一致</span>
                     {{/if}}
                     {{#unless page_data.ip_header_match}}
-                        <span class="badge bg-danger abbr-badge" title="IP_HEADER 設定は無効と思われます。ログ内の IP が無効である可能性があります。修正してください。">不一致</span>
+                        <span class="badge bg-danger abbr-badge" title="IP_HEADER設定が無効のようです。ログのIPが無効になる可能性があります。修正してください。">不一致</span>
                     {{/unless}}
                     </dt>
                     <dd class="col-sm-7">
                     {{#if page_data.ip_header_match}}
-                        <span class="d-block"><b>設定/サーバー:</b> {{ page_data.ip_header_name }}</span>
+                        <span class="d-block"><b>設定/サーバー：</b> {{ page_data.ip_header_name }}</span>
                     {{/if}}
                     {{#unless page_data.ip_header_match}}
-                        <span class="d-block"><b>設定:</b> {{ page_data.ip_header_config }}</span>
-                        <span class="d-block"><b>サーバー:</b> {{ page_data.ip_header_name }}</span>
+                        <span class="d-block"><b>設定：</b> {{ page_data.ip_header_config }}</span>
+                        <span class="d-block"><b>サーバー：</b> {{ page_data.ip_header_name }}</span>
                     {{/unless}}
                     </dd>
                     {{/if}}
-                    {{!-- IP ヘッダーが存在する場合の終了 --}}
-                    <dt class="col-sm-5">インターネット接続
+                    <dt class="col-sm-5">インターネットアクセス
                     {{#if page_data.has_http_access}}
-                        <span class="badge bg-success abbr-badge" title="インターネットに接続されています！">Ok</span>
+                        <span class="badge bg-success abbr-badge" title="インターネットアクセスがあります。">正常</span>
                     {{/if}}
                     {{#unless page_data.has_http_access}}
-                        <span class="badge bg-danger abbr-badge" title="インターネット接続がないようです。修正してください。">エラー</span>
+                        <span class="badge bg-danger abbr-badge" title="インターネットアクセスがないようです。修正してください。">エラー</span>
                     {{/unless}}
                     </dt>
                     <dd class="col-sm-7">
@@ -123,73 +121,73 @@
                         <span class="d-block"><b>いいえ</b></span>
                     {{/unless}}
                     </dd>
-                    <dt class="col-sm-5">プロキシ経由のインターネット接続</dt>
+                    <dt class="col-sm-5">プロキシ経由のインターネットアクセス</dt>
                     <dd class="col-sm-7">
                     {{#if page_data.uses_proxy}}
-                        <span class="d-block" title="インターネット接続はプロキシ経由です (HTTPS_PROXY または HTTP_PROXY が設定されています)。"><b>はい</b></span>
+                        <span class="d-block" title="インターネットアクセスはプロキシ経由です（HTTPS_PROXYまたはHTTP_PROXYが設定されています）。"><b>はい</b></span>
                     {{/if}}
                     {{#unless page_data.uses_proxy}}
-                        <span class="d-block" title="直接インターネットに接続されており、送信プロキシは設定されていません。"><b>いいえ</b></span>
+                        <span class="d-block" title="直接インターネットアクセスがあり、送信プロキシは設定されていません。"><b>いいえ</b></span>
                     {{/unless}}
                     </dd>
-                    <dt class="col-sm-5">Websocket 有効
+                    <dt class="col-sm-5">Websocket有効
                         {{#if page_data.enable_websocket}}
-                        <span class="badge bg-success d-none abbr-badge" id="websocket-success" title="Websocket 接続は動作しています。">Ok</span>
-                        <span class="badge bg-danger d-none abbr-badge" id="websocket-error" title="Websocket 接続エラー、リバースプロキシ設定を確認してください！">エラー</span>
+                        <span class="badge bg-success d-none abbr-badge" id="websocket-success" title="Websocket接続は正常です。">正常</span>
+                        <span class="badge bg-danger d-none abbr-badge" id="websocket-error" title="Websocket接続エラー、リバースプロキシ設定を確認してください。">エラー</span>
                         {{/if}}
                     </dt>
                     <dd class="col-sm-7">
                     {{#if page_data.enable_websocket}}
-                        <span class="d-block" title="Websocket 接続が有効です (ENABLE_WEBSOCKET が true)。"><b>はい</b></span>
+                        <span class="d-block" title="Websocket接続が有効です（ENABLE_WEBSOCKETがtrue）。"><b>はい</b></span>
                     {{/if}}
                     {{#unless page_data.enable_websocket}}
-                        <span class="d-block" title="Websocket 接続が無効です (ENABLE_WEBSOCKET が false)。"><b>いいえ</b></span>
+                        <span class="d-block" title="Websocket接続が無効です（ENABLE_WEBSOCKETがfalse）。"><b>いいえ</b></span>
                     {{/unless}}
                     </dd>
 
                     <dt class="col-sm-5">DNS (github.com)
-                        <span class="badge bg-success d-none abbr-badge" id="dns-success" title="DNS 解決は動作しています！">Ok</span>
-                        <span class="badge bg-danger d-none abbr-badge" id="dns-warning" title="DNS 解決に失敗しました。修正してください。">エラー</span>
+                        <span class="badge bg-success d-none abbr-badge" id="dns-success" title="DNS解決は正常です。">正常</span>
+                        <span class="badge bg-danger d-none abbr-badge" id="dns-warning" title="DNS解決に失敗しました。修正してください。">エラー</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="dns-resolved">{{page_data.dns_resolved}}</span>
                     </dd>
-                    <dt class="col-sm-5">日付 & 時刻 (現地)
+                    <dt class="col-sm-5">日付と時刻（ローカル）
                         {{#if page_data.tz_env}}
-                            <span class="badge bg-success abbr-badge" title="設定された TZ 環境変数">{{page_data.tz_env}}</span>
+                            <span class="badge bg-success abbr-badge" title="設定されたTZ環境変数">{{page_data.tz_env}}</span>
                         {{/if}}
                     </dt>
                     <dd class="col-sm-7">
-                        <span><b>サーバー:</b> {{page_data.server_time_local}}</span>
+                        <span><b>サーバー：</b> {{page_data.server_time_local}}</span>
                     </dd>
-                    <dt class="col-sm-5">日付 & 時刻 (UTC)
-                        <span class="badge bg-success d-none abbr-badge" id="time-success" title="サーバーとブラウザの時刻が15秒以内に一致しています。">サーバー/ブラウザ Ok</span>
-                        <span class="badge bg-danger d-none abbr-badge" id="time-warning" title="サーバーとブラウザの時刻が15秒以上ずれています。">サーバー/ブラウザ エラー</span>
-                        <span class="badge bg-success d-none abbr-badge" id="ntp-server-success" title="サーバーと NTP の時刻が15秒以内に一致しています。">サーバー NTP Ok</span>
-                        <span class="badge bg-danger d-none abbr-badge" id="ntp-server-warning" title="サーバーと NTP の時刻が15秒以上ずれています。">サーバー NTP エラー</span>
-                        <span class="badge bg-success d-none abbr-badge" id="ntp-browser-success" title="ブラウザと NTP の時刻が15秒以内に一致しています。">ブラウザ NTP Ok</span>
-                        <span class="badge bg-danger d-none abbr-badge" id="ntp-browser-warning" title="ブラウザと NTP の時刻が15秒以上ずれています。">ブラウザ NTP エラー</span>
+                    <dt class="col-sm-5">日付と時刻（UTC）
+                        <span class="badge bg-success d-none abbr-badge" id="time-success" title="サーバーとブラウザの時刻は15秒以内の差です。">サーバー/ブラウザ正常</span>
+                        <span class="badge bg-danger d-none abbr-badge" id="time-warning" title="サーバーとブラウザの時刻が15秒以上離れています。">サーバー/ブラウザエラー</span>
+                        <span class="badge bg-success d-none abbr-badge" id="ntp-server-success" title="サーバーとNTPの時刻は15秒以内の差です。">サーバーNTP正常</span>
+                        <span class="badge bg-danger d-none abbr-badge" id="ntp-server-warning" title="サーバーとNTPの時刻が15秒以上離れています。">サーバーNTPエラー</span>
+                        <span class="badge bg-success d-none abbr-badge" id="ntp-browser-success" title="ブラウザとNTPの時刻は15秒以内の差です。">ブラウザNTP正常</span>
+                        <span class="badge bg-danger d-none abbr-badge" id="ntp-browser-warning" title="ブラウザとNTPの時刻が15秒以上離れています。">ブラウザNTPエラー</span>
                     </dt>
                     <dd class="col-sm-7">
-                        <span id="ntp-time" class="d-block"><b>NTP:</b> <span id="ntp-server-string">{{page_data.ntp_time}}</span></span>
-                        <span id="time-server" class="d-block"><b>サーバー:</b> <span id="time-server-string">{{page_data.server_time}}</span></span>
-                        <span id="time-browser" class="d-block"><b>ブラウザ:</b> <span id="time-browser-string"></span></span>
+                        <span id="ntp-time" class="d-block"><b>NTP：</b> <span id="ntp-server-string">{{page_data.ntp_time}}</span></span>
+                        <span id="time-server" class="d-block"><b>サーバー：</b> <span id="time-server-string">{{page_data.server_time}}</span></span>
+                        <span id="time-browser" class="d-block"><b>ブラウザ：</b> <span id="time-browser-string"></span></span>
                     </dd>
 
                     <dt class="col-sm-5">ドメイン設定
                         <span class="badge bg-success d-none abbr-badge" id="domain-success" title="ドメイン変数がブラウザのロケーションと一致し、正しく設定されているようです。">一致</span>
-                        <span class="badge bg-danger d-none abbr-badge" id="domain-warning" title="ドメイン変数がブラウザのロケーションと一致しません。&#013;&#010;ドメイン変数が正しく設定されていないようです。&#013;&#010;一部の機能が期待通りに動作しない可能性があります！">不一致</span>
-                        <span class="badge bg-success d-none abbr-badge" id="https-success" title="HTTPS を使用するように設定されています">HTTPS</span>
-                        <span class="badge bg-danger d-none abbr-badge" id="https-warning" title="HTTPS を使用するように設定されていません。&#013;&#010;一部の機能が期待通りに動作しない可能性があります！">HTTPS なし</span>
+                        <span class="badge bg-danger d-none abbr-badge" id="domain-warning" title="ドメイン変数がブラウザのロケーションと一致しません。&#013;&#010;ドメイン変数が正しく設定されていないようです。&#013;&#010;一部の機能が期待通りに動作しない可能性があります。">不一致</span>
+                        <span class="badge bg-success d-none abbr-badge" id="https-success" title="HTTPSを使用するよう設定されています">HTTPS</span>
+                        <span class="badge bg-danger d-none abbr-badge" id="https-warning" title="HTTPSを使用するよう設定されていません。&#013;&#010;一部の機能が期待通りに動作しない可能性があります。">HTTPSなし</span>
                     </dt>
                     <dd class="col-sm-7">
-                        <span id="domain-server" class="d-block"><b>サーバー:</b> <span id="domain-server-string">{{page_data.admin_url}}</span></span>
-                        <span id="domain-browser" class="d-block"><b>ブラウザ:</b> <span id="domain-browser-string"></span></span>
+                        <span id="domain-server" class="d-block"><b>サーバー：</b> <span id="domain-server-string">{{page_data.admin_url}}</span></span>
+                        <span id="domain-browser" class="d-block"><b>ブラウザ：</b> <span id="domain-browser-string"></span></span>
                     </dd>
 
-                    <dt class="col-sm-5">HTTP レスポンス検証
-                        <span class="badge bg-success d-none abbr-badge" id="http-response-success" title="すべてのヘッダーと HTTP リクエストレスポンスは問題ないようです。">Ok</span>
-                        <span class="badge bg-danger d-none abbr-badge" id="http-response-warning" title="一部のヘッダーまたは HTTP リクエストレスポンスが無効なデータを返しています！">エラー</span>
+                    <dt class="col-sm-5">HTTP応答検証
+                        <span class="badge bg-success d-none abbr-badge" id="http-response-success" title="すべてのヘッダーとHTTPリクエスト応答は正常のようです。">正常</span>
+                        <span class="badge bg-danger d-none abbr-badge" id="http-response-warning" title="一部のヘッダーまたはHTTPリクエスト応答が無効なデータを返しています。">エラー</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="http-response-errors" class="d-block"></span>
@@ -203,15 +201,15 @@
             <div class="col-md">
                 <dl class="row">
                     <dd class="col-sm-12">
-                        サポートが必要な場合は、新しい Issue を作成する前に、まず以下のリンクを確認してください：
+                        サポートが必要な場合は、新しいIssueを作成する前に、まず以下のリンクを確認してください：
                          <a href="https://vaultwarden.discourse.group/" target="_blank" rel="noreferrer noopener">Vaultwarden フォーラム</a>
-                         | <a href="https://github.com/dani-garcia/vaultwarden/discussions" target="_blank" rel="noreferrer noopener">Github ディスカッション</a>
+                         | <a href="https://github.com/dani-garcia/vaultwarden/discussions" target="_blank" rel="noreferrer noopener">GitHub ディスカッション</a>
                     </dd>
                 </dl>
                 <dl class="row">
                     <dd class="col-sm-12">
-                        以下のボタンを使用して、フォーラムまたは Github で新しい Issue を作成する際にコピー/ペーストできる文字列を事前に生成できます。<br>
-                        生成されるサポート文字列から最も機密性の高い値はデフォルトで非表示にするよう努めていますが、非表示にしたい情報が含まれていないか確認してください！<br>
+                        以下のボタンを使用して、フォーラムまたはGitHubで新しいIssueを作成する際にコピー＆ペーストできる文字列を生成できます。<br>
+                        デフォルトでは、生成されたサポート文字列から最も機密性の高い値を非表示にしようとしていますが、非表示にしたい情報が含まれていないか確認してください。<br>
                     </dd>
                 </dl>
                 <dl class="row">
@@ -222,7 +220,7 @@
                         <div class="toast-container position-absolute float-start vw-copy-toast">
                             <div id="toastClipboardCopy" class="toast fade hide" role="status" aria-live="polite" aria-atomic="true" data-bs-autohide="true" data-bs-delay="1500">
                                 <div class="toast-body">
-                                    クリップボードにコピーしました！
+                                    クリップボードにコピーしました。
                                 </div>
                             </div>
                         </div>

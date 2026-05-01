@@ -1,17 +1,17 @@
 <main class="container-xl">
     <div id="admin_token_warning" class="alert alert-warning alert-dismissible fade show d-none">
-        <button type="button" class="btn-close" data-bs-target="admin_token_warning" data-bs-dismiss="alert" aria-label="닫기"></button>
-        보안에 취약한 일반 텍스트 `ADMIN_TOKEN`을 사용하고 있습니다.<br>
-        `vaultwarden hash` 또는 `argon2`를 사용하여 안전한 Argon2 PHC 문자열을 생성해 주세요.<br>
-        참고: <a href="https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page#secure-the-admin_token" target="_blank" rel="noopener noreferrer">관리 페이지 활성화 - `ADMIN_TOKEN` 보안 설정</a>
+        <button type="button" class="btn-close" data-bs-target="admin_token_warning" data-bs-dismiss="alert" aria-label="Close"></button>
+        일반 텍스트 `ADMIN_TOKEN`을 사용 중이며 이는 안전하지 않습니다.<br>
+        `vaultwarden hash` 또는 `argon2`를 사용하여 안전한 Argon2 PHC 문자열을 생성해주세요.<br>
+        참조: <a href="https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page#secure-the-admin_token" target="_blank" rel="noopener noreferrer">관리자 페이지 활성화 - `ADMIN_TOKEN` 보안</a>
     </div>
     <div id="config-block" class="align-items-center p-3 mb-3 bg-secondary rounded shadow">
         <div>
-            <h6 class="text-white mb-3">설정</h6>
+            <h6 class="text-white mb-3">구성</h6>
             <div class="small text-white mb-3">
-                <span class="font-weight-bolder">참고:</span> 여기서의 설정은 환경 변수를 재정의합니다. 저장 후에는 혼란을 피하기 위해 환경 변수 설정을 중지하는 것이 좋습니다.<br>
-                이는 읽기 전용 섹션에는 적용되지 않으며, 읽기 전용 섹션은 환경 변수를 통해서만 설정할 수 있습니다.<br>
-                재정의된 설정은 <span class="is-overridden-true alert-row px-1">노란색 배경</span>으로 표시됩니다.
+                <span class="font-weight-bolder">참고:</span> 여기서 설정한 내용은 환경 변수를 덮어씁니다. 저장 후에는 혼동을 방지하기 위해 환경 변수 설정을 중단하는 것이 좋습니다.<br>
+                이는 읽기 전용 섹션에는 적용되지 않으며, 환경 변수를 통해서만 설정할 수 있습니다.<br>
+                덮어쓰기된 설정은 <span class="is-overridden-true alert-row px-1">노란색 배경</span>으로 표시됩니다.
             </div>
 
             <form class="form needs-validation" id="config-form" novalidate>
@@ -28,7 +28,7 @@
                             <div class="col-sm-8">
                                 <div class="input-group">
                                 <input class="form-control conf-{{type}}" id="input_{{name}}" type="{{type}}"
-                                    name="{{name}}" value="{{value}}" {{#if default}} placeholder="기본값: {{default}}"{{/if}}>
+                                    name="{{name}}" value="{{value}}" {{#if default}} placeholder="기본값： {{default}}"{{/if}}>
                                 {{#case type "password"}}
                                     <button class="btn btn-outline-secondary input-group-text" type="button" data-vw-pw-toggle="input_{{name}}">표시/숨기기</button>
                                 {{/case}}
@@ -42,7 +42,7 @@
                                     <input class="form-check-input conf-{{type}}" type="checkbox" id="input_{{name}}"
                                         name="{{name}}" {{#if value}} checked {{/if}}>
 
-                                    <label class="form-check-label" for="input_{{name}}"> 기본값: {{default}} </label>
+                                    <label class="form-check-label" for="input_{{name}}"> 기본값： {{default}} </label>
                                 </div>
                             </div>
                             {{/case}}
@@ -50,12 +50,12 @@
                         {{/if}}
                         {{/each}}
                         {{#case group "smtp"}}
-                            <div class="row my-2 align-items-center pt-3 border-top" title="지정된 이메일 주소로 테스트 이메일 전송">
+                            <div class="row my-2 align-items-center pt-3 border-top" title="주어진 이메일 주소로 테스트 이메일 보내기">
                                 <label for="smtp-test-email" class="col-sm-3 col-form-label">SMTP 테스트</label>
                                 <div class="col-sm-8 input-group">
                                     <input class="form-control" id="smtp-test-email" type="email" placeholder="테스트 이메일 입력" required spellcheck="false">
                                     <button type="button" class="btn btn-outline-primary input-group-text" id="smtpTest">테스트 이메일 보내기</button>
-                                    <div class="invalid-tooltip">유효한 이메일 주소를 입력해 주세요</div>
+                                    <div class="invalid-tooltip">유효한 이메일 주소를 입력해주세요</div>
                                 </div>
                             </div>
                         {{/case}}
@@ -66,12 +66,12 @@
 
                 <div class="card mb-3">
                     <button id="b_readonly" type="button" class="card-header text-start btn btn-link text-decoration-none" aria-expanded="false" aria-controls="g_readonly"
-                            data-bs-toggle="collapse" data-bs-target="#g_readonly">읽기 전용 설정</button>
+                            data-bs-toggle="collapse" data-bs-target="#g_readonly">읽기 전용 구성</button>
                     <div id="g_readonly" class="card-body collapse">
                         <div class="small mb-3">
-                            참고: 이 옵션들은 서버 재시작이 필요하므로 편집기에서 수정할 수 없습니다.
+                            참고: 이러한 옵션은 서버를 다시 시작해야 하므로 편집기에서 수정할 수 없습니다.
                             수정하려면 서버를 시작할 때 올바른 환경 변수를 설정해야 합니다.
-                            각 옵션의 툴팁에서 변수 이름을 확인할 수 있습니다.
+                            각 옵션의 도구 설명에서 변수 이름을 확인할 수 있습니다.
                         </div>
 
                         {{#each page_data.config}}
@@ -83,15 +83,15 @@
                             <div class="col-sm-8">
                                 <div class="input-group">
                                 {{!--
-                                      데이터베이스 URL 입력도 여기서 비밀번호로 설정합니다.
-                                      config.rs에서 비밀번호로 설정하면 지원 문자열에 대해 문자 마스킹이 되지 않습니다.
-                                      때로는 3개의 별표보다 지원 제공에 더 유용할 수 있습니다.
+                                      Also set the database_url input as password here.
+                                      If we would set it to password in config.rs it will not be character masked for the support string.
+                                      And sometimes this is more useful for providing support than just 3 asterisk.
                                 --}}
                                 {{#if (eq name "database_url")}}
-                                    <input readonly class="form-control" id="input_{{name}}" type="password" value="{{value}}" {{#if default}} placeholder="기본값: {{default}}" {{/if}}>
+                                    <input readonly class="form-control" id="input_{{name}}" type="password" value="{{value}}" {{#if default}} placeholder="기본값： {{default}}" {{/if}}>
                                     <button class="btn btn-outline-secondary" type="button" data-vw-pw-toggle="input_{{name}}">표시/숨기기</button>
                                 {{else}}
-                                    <input readonly class="form-control" id="input_{{name}}" type="{{type}}" value="{{value}}" {{#if default}} placeholder="기본값: {{default}}" {{/if}} spellcheck="false">
+                                    <input readonly class="form-control" id="input_{{name}}" type="{{type}}" value="{{value}}" {{#if default}} placeholder="기본값： {{default}}" {{/if}} spellcheck="false">
                                     {{#case type "password"}}
                                     <button class="btn btn-outline-secondary" type="button" data-vw-pw-toggle="input_{{name}}">표시/숨기기</button>
                                     {{/case}}
@@ -106,7 +106,7 @@
                                     <input disabled class="form-check-input" type="checkbox" id="input_{{name}}"
                                         {{#if value}} checked {{/if}}>
 
-                                    <label class="form-check-label" for="input_{{name}}"> 기본값: {{default}} </label>
+                                    <label class="form-check-label" for="input_{{name}}"> 기본값： {{default}} </label>
                                 </div>
                             </div>
                             {{/case}}
@@ -125,9 +125,9 @@
                     <div id="g_database" class="card-body collapse">
                         <div class="small mb-3">
                             경고: 이 기능은 SQLite 데이터베이스의 백업 복사본만 생성합니다.
-                            완전한 vaultwarden 인스턴스 복원에 필요한 구성 또는 파일 첨부 데이터는 포함되지 않습니다.
+                            vaultwarden 인스턴스를 완전히 복원하는 데 필요한 구성 또는 파일 첨부 데이터는 포함되지 않습니다.
                             전체 백업 수행 방법에 대한 자세한 내용은
-                            <a href="https://github.com/dani-garcia/vaultwarden/wiki/Backing-up-your-vault" target="_blank" rel="noopener noreferrer">백업</a> 위키 페이지를 참조하세요.
+                            <a href="https://github.com/dani-garcia/vaultwarden/wiki/Backing-up-your-vault" target="_blank" rel="noopener noreferrer">백업</a>에 대한 위키 페이지를 참조하세요.
                         </div>
                         <button type="button" class="btn btn-primary" id="backupDatabase">데이터베이스 백업</button>
                     </div>
@@ -135,14 +135,14 @@
                 {{/if}}
 
                 <button type="submit" class="btn btn-primary">저장</button>
-                <button type="button" class="btn btn-danger float-end" id="deleteConf">기본값으로 재설정</button>
+                <button type="button" class="btn btn-danger float-end" id="deleteConf">기본값 재설정</button>
             </form>
         </div>
     </div>
 </main>
 <style>
     #config-block ::placeholder {
-        /* 대부분의 최신 브라우저에서 지원됩니다. */
+        /* Most modern browsers support this now. */
         color: orangered;
     }
 

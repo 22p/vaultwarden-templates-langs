@@ -1,20 +1,20 @@
 <main class="container-xl">
     <div id="users-block" class="my-3 p-3 rounded shadow">
-        <h6 class="border-bottom pb-2 mb-3">登録済みユーザー</h6>
+        <h6 class="border-bottom pb-2 mb-3">登録ユーザー</h6>
         <div class="table-responsive-xl small">
             <table id="users-table" class="table table-sm table-striped table-hover">
                 <thead>
                     <tr>
                         <th class="vw-account-details">ユーザー</th>
                         {{#if sso_enabled}}
-                        <th class="vw-sso-identifier">SSO Identifier</th>
+                        <th class="vw-sso-identifier">SSO識別子</th>
                         {{/if}}
-                        <th class="vw-created-at">作成日時</th>
+                        <th class="vw-created-at">作成日</th>
                         <th class="vw-last-active">最終アクティブ</th>
-                        <th class="vw-entries">エントリ数</th>
+                        <th class="vw-entries">エントリ</th>
                         <th class="vw-attachments">添付ファイル</th>
                         <th class="vw-organizations">組織</th>
-                        <th class="vw-actions">操作</th>
+                        <th class="vw-actions">アクション</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,16 +27,16 @@
                                 <span class="d-block">{{email}}</span>
                                 <span class="d-block">
                                     {{#unless user_enabled}}
-                                        <span class="badge bg-danger me-2" title="User is disabled">無効</span>
+                                        <span class="badge bg-danger me-2" title="ユーザーは無効です">無効</span>
                                     {{/unless}}
                                     {{#if twoFactorEnabled}}
-                                        <span class="badge bg-success me-2" title="2FA is enabled">2FA</span>
+                                        <span class="badge bg-success me-2" title="2FAが有効です">2FA</span>
                                     {{/if}}
                                     {{#case _status 1}}
-                                        <span class="badge bg-warning text-dark me-2" title="User is invited">招待済み</span>
+                                        <span class="badge bg-warning text-dark me-2" title="ユーザーは招待済みです">招待済み</span>
                                     {{/case}}
                                     {{#if emailVerified}}
-                                        <span class="badge bg-success me-2" title="Email has been verified">確認済み</span>
+                                        <span class="badge bg-success me-2" title="メールが確認済みです">確認済み</span>
                                     {{/if}}
                                 </span>
                             </div>
@@ -56,9 +56,9 @@
                             <span class="d-block">{{cipher_count}}</span>
                         </td>
                         <td>
-                            <span class="d-block"><strong>件数:</strong> {{attachment_count}}</span>
+                            <span class="d-block"><strong>数：</strong> {{attachment_count}}</span>
                             {{#if attachment_count}}
-                            <span class="d-block"><strong>サイズ:</strong> {{attachment_size}}</span>
+                            <span class="d-block"><strong>サイズ：</strong> {{attachment_size}}</span>
                             {{/if}}
                         </td>
                         <td>
@@ -71,12 +71,12 @@
                         <td class="text-end px-1 small">
                             <span data-vw-user-uuid="{{id}}" data-vw-user-email="{{email}}">
                                 {{#if twoFactorEnabled}}
-                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-remove2fa>全2FAを削除</button><br>
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-remove2fa>すべての2FAを削除</button><br>
                                 {{/if}}
                                 <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-deauth-user>セッションを無効化</button><br>
                                 <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-delete-user>ユーザーを削除</button><br>
                                 {{#if ../sso_enabled}}
-                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-delete-sso-user>SSO Associationを削除</button><br>
+                                <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-delete-sso-user>SSO関連付けを削除</button><br>
                                 {{/if}}
                                 {{#if user_enabled}}
                                 <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-disable-user>ユーザーを無効化</button><br>
@@ -96,7 +96,7 @@
 
         <div class="mt-3 clearfix">
             <button type="button" class="btn btn-sm btn-danger" id="updateRevisions"
-                title="Force all clients to fetch new data next time they connect. Useful after restoring a backup to remove any stale data.">
+                title="すべてのクライアントが次回接続時に新しいデータを取得するようにします。バックアップ復元後の古いデータ削除に便利です。">
                 クライアントに再同期を強制
             </button>
 
@@ -107,10 +107,10 @@
     <div id="inviteUserFormBlock" class="align-items-center p-3 mb-3 text-white-50 bg-secondary rounded shadow">
         <div>
             <h6 class="mb-0 text-white">ユーザーを招待</h6>
-            <small>メールアドレス:</small>
+            <small>メール：</small>
 
             <form class="form-inline input-group w-50" id="inviteUserForm">
-                <input type="email" class="form-control me-2" id="inviteEmail" placeholder="メールアドレスを入力" required spellcheck="false">
+                <input type="email" class="form-control me-2" id="inviteEmail" placeholder="メールを入力" required spellcheck="false">
                 <button type="submit" class="btn btn-primary">招待</button>
             </form>
         </div>
@@ -121,7 +121,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h6 class="modal-title">
-                        <b>ユーザータイプを更新:</b><br><b>組織:</b> <span id="userOrgTypeDialogOrgName"></span><br><b>ユーザー:</b> <span id="userOrgTypeDialogUserEmail"></span>
+                        <b>ユーザータイプの更新：</b><br><b>組織：</b> <span id="userOrgTypeDialogOrgName"></span><br><b>ユーザー：</b> <span id="userOrgTypeDialogUserEmail"></span>
                     </h6>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
                 </div>
@@ -144,7 +144,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-                        <button type="submit" class="btn btn-sm btn-primary">役割を変更</button>
+                        <button type="submit" class="btn btn-sm btn-primary">ロールを変更</button>
                     </div>
                 </form>
             </div>

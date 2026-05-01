@@ -33,15 +33,15 @@
                             <span class="d-block">{{cipher_count}}</span>
                         </td>
                         <td>
-                            <span class="d-block"><strong>수량:</strong> {{attachment_count}}</span>
+                            <span class="d-block"><strong>개수：</strong> {{attachment_count}}</span>
                             {{#if attachment_count}}
-                            <span class="d-block"><strong>크기:</strong> {{attachment_size}}</span>
+                            <span class="d-block"><strong>크기：</strong> {{attachment_size}}</span>
                             {{/if}}
                         </td>
                         <td>
-                            <span class="d-block"><strong>컬렉션:</strong> {{collection_count}}</span>
-                            <span class="d-block"><strong>그룹:</strong> {{group_count}}</span>
-                            <span class="d-block"><strong>이벤트:</strong> {{event_count}}</span>
+                            <span class="d-block"><strong>컬렉션：</strong> {{collection_count}}</span>
+                            <span class="d-block"><strong>그룹：</strong> {{group_count}}</span>
+                            <span class="d-block"><strong>이벤트：</strong> {{event_count}}</span>
                         </td>
                         <td class="text-end px-1 small">
                             <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-delete-organization data-vw-org-uuid="{{id}}" data-vw-org-name="{{name}}" data-vw-billing-email="{{billingEmail}}">조직 삭제</button><br>
@@ -53,7 +53,7 @@
         </div>
 
         <div class="mt-3 clearfix">
-            <button type="button" class="btn btn-sm btn-primary float-end" id="reload">조직 다시 불러오기</button>
+            <button type="button" class="btn btn-sm btn-primary float-end" id="reload">조직 다시 로드</button>
         </div>
     </div>
 </main>

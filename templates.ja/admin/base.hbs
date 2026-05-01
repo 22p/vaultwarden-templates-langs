@@ -28,9 +28,9 @@
     </svg>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4 shadow fixed-top">
         <div class="container-xl">
-            <a class="navbar-brand" href="{{urlpath}}/admin"><img class="vaultwarden-icon" src="{{urlpath}}/vw_static/vaultwarden-icon.png" alt="V">aultwarden 管理</a>
+            <a class="navbar-brand" href="{{urlpath}}/admin"><img class="vaultwarden-icon" src="{{urlpath}}/vw_static/vaultwarden-icon.png" alt="V">aultwarden Admin</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="ナビゲーションの切り替え">
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -50,7 +50,7 @@
                     </li>
                     {{/if}}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{urlpath}}/" target="_blank" rel="noreferrer">Vault</a>
+                        <a class="nav-link" href="{{urlpath}}/" target="_blank" rel="noreferrer">保管庫</a>
                     </li>
                 </ul>
 
@@ -59,13 +59,13 @@
                         <button
                             class="btn btn-link nav-link py-0 px-0 px-md-2 dropdown-toggle d-flex align-items-center"
                             id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
-                            data-bs-display="static" aria-label="テーマの切り替え (自動)">
+                            data-bs-display="static" aria-label="テーマ切替 (自動)">
                             <span class="my-1 fs-4 theme-icon-active">
                                 <svg class="vw-theme-icon" focusable="false" aria-hidden="true">
                                     <use data-theme-icon-use href="#vw-icon-auto"></use>
                                 </svg>
                             </span>
-                            <span class="d-md-none ms-2" id="bd-theme-text">テーマの切り替え</span>
+                            <span class="d-md-none ms-2" id="bd-theme-text">テーマ切替</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
                             <li>
@@ -115,7 +115,7 @@
 
     {{> (lookup this "page_content") }}
 
-    <!-- このスクリプトは下部に配置する必要があります。そうしないと失敗します！ -->
+    <!-- This script needs to be at the bottom, else it will fail! -->
     <script src="{{urlpath}}/vw_static/bootstrap.bundle.js"></script>
 </body>
 </html>

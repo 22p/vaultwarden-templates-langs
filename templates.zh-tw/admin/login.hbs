@@ -9,15 +9,15 @@
 
     <div class="align-items-center p-3 mb-3 text-opacity-75 text-light bg-danger rounded shadow">
         <div>
-            <h6 class="mb-0 text-light">需要驗證金鑰以繼續</h6>
+            <h6 class="mb-0 text-light">需要驗證金鑰才能繼續</h6>
             <small>請在下方提供：</small>
 
             <form class="form-inline" method="post" action="{{urlpath}}/admin">
-                <input type="password" autocomplete="password" class="form-control w-50 mr-2" name="token" placeholder="輸入管理員令牌" autofocus="autofocus">
+                <input type="password" autocomplete="password" class="form-control w-50 mr-2" name="token" placeholder="輸入管理員權杖" autofocus="autofocus">
                 {{#if redirect}}
                 <input type="hidden" id="redirect" name="redirect" value="/{{redirect}}">
                 {{/if}}
-                <button type="submit" class="btn btn-primary mt-2">進入</button>
+                <button type="submit" class="btn btn-primary mt-2">確定</button>
             </form>
         </div>
     </div>

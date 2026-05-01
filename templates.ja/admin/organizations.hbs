@@ -10,7 +10,7 @@
                         <th class="vw-entries">エントリ</th>
                         <th class="vw-attachments">添付ファイル</th>
                         <th class="vw-misc">その他</th>
-                        <th class="vw-actions">操作</th>
+                        <th class="vw-actions">アクション</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,15 +33,15 @@
                             <span class="d-block">{{cipher_count}}</span>
                         </td>
                         <td>
-                            <span class="d-block"><strong>数量:</strong> {{attachment_count}}</span>
+                            <span class="d-block"><strong>数：</strong> {{attachment_count}}</span>
                             {{#if attachment_count}}
-                            <span class="d-block"><strong>サイズ:</strong> {{attachment_size}}</span>
+                            <span class="d-block"><strong>サイズ：</strong> {{attachment_size}}</span>
                             {{/if}}
                         </td>
                         <td>
-                            <span class="d-block"><strong>コレクション:</strong> {{collection_count}}</span>
-                            <span class="d-block"><strong>グループ:</strong> {{group_count}}</span>
-                            <span class="d-block"><strong>イベント:</strong> {{event_count}}</span>
+                            <span class="d-block"><strong>コレクション：</strong> {{collection_count}}</span>
+                            <span class="d-block"><strong>グループ：</strong> {{group_count}}</span>
+                            <span class="d-block"><strong>イベント：</strong> {{event_count}}</span>
                         </td>
                         <td class="text-end px-1 small">
                             <button type="button" class="btn btn-sm btn-link p-0 border-0 float-right" vw-delete-organization data-vw-org-uuid="{{id}}" data-vw-org-name="{{name}}" data-vw-billing-email="{{billingEmail}}">組織を削除</button><br>

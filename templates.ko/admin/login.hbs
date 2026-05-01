@@ -10,14 +10,14 @@
     <div class="align-items-center p-3 mb-3 text-opacity-75 text-light bg-danger rounded shadow">
         <div>
             <h6 class="mb-0 text-light">계속하려면 인증 키가 필요합니다</h6>
-            <small>아래에 입력해 주세요:</small>
+            <small>아래에 입력해주세요:</small>
 
             <form class="form-inline" method="post" action="{{urlpath}}/admin">
                 <input type="password" autocomplete="password" class="form-control w-50 mr-2" name="token" placeholder="관리자 토큰 입력" autofocus="autofocus">
                 {{#if redirect}}
                 <input type="hidden" id="redirect" name="redirect" value="/{{redirect}}">
                 {{/if}}
-                <button type="submit" class="btn btn-primary mt-2">입력</button>
+                <button type="submit" class="btn btn-primary mt-2">확인</button>
             </form>
         </div>
     </div>

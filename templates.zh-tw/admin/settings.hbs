@@ -1,17 +1,17 @@
 <main class="container-xl">
     <div id="admin_token_warning" class="alert alert-warning alert-dismissible fade show d-none">
         <button type="button" class="btn-close" data-bs-target="admin_token_warning" data-bs-dismiss="alert" aria-label="關閉"></button>
-        您正在使用明文 `ADMIN_TOKEN`，這是不安全的。<br>
-        請使用 `vaultwarden hash` 或 `argon2` 生成安全的 Argon2 PHC 字串。<br>
-        參見：<a href="https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page#secure-the-admin_token" target="_blank" rel="noopener noreferrer">啟用管理頁面 - 保護 `ADMIN_TOKEN`</a>
+        您正在使用純文字的 `ADMIN_TOKEN`，這是不安全的。<br>
+        請使用 `vaultwarden hash` 或 `argon2` 產生安全的 Argon2 PHC 字串。<br>
+        參閱：<a href="https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page#secure-the-admin_token" target="_blank" rel="noopener noreferrer">啟用管理頁面 - 保護 `ADMIN_TOKEN`</a>
     </div>
     <div id="config-block" class="align-items-center p-3 mb-3 bg-secondary rounded shadow">
         <div>
             <h6 class="text-white mb-3">設定</h6>
             <div class="small text-white mb-3">
-                <span class="font-weight-bolder">注意：</span>此處的設定會覆蓋環境變數。儲存後，建議停止設定它們以避免混淆。<br>
-                這不適用於唯讀部分，該部分只能透過環境變數設定。<br>
-                被覆蓋的設定會以<span class="is-overridden-true alert-row px-1">黃色背景</span>顯示。
+                <span class="font-weight-bolder">注意：</span>此處的設定會覆寫環境變數。一旦儲存，建議停止設定環境變數以避免混淆。<br>
+                這不適用於唯讀區段，該區段只能透過環境變數設定。<br>
+                被覆寫的設定會以<span class="is-overridden-true alert-row px-1">黃色背景</span>顯示。
             </div>
 
             <form class="form needs-validation" id="config-form" novalidate>
@@ -28,7 +28,7 @@
                             <div class="col-sm-8">
                                 <div class="input-group">
                                 <input class="form-control conf-{{type}}" id="input_{{name}}" type="{{type}}"
-                                    name="{{name}}" value="{{value}}" {{#if default}} placeholder="預設值：{{default}}"{{/if}}>
+                                    name="{{name}}" value="{{value}}" {{#if default}} placeholder="預設：{{default}}"{{/if}}>
                                 {{#case type "password"}}
                                     <button class="btn btn-outline-secondary input-group-text" type="button" data-vw-pw-toggle="input_{{name}}">顯示/隱藏</button>
                                 {{/case}}
@@ -42,7 +42,7 @@
                                     <input class="form-check-input conf-{{type}}" type="checkbox" id="input_{{name}}"
                                         name="{{name}}" {{#if value}} checked {{/if}}>
 
-                                    <label class="form-check-label" for="input_{{name}}"> 預設值：{{default}} </label>
+                                    <label class="form-check-label" for="input_{{name}}"> 預設：{{default}} </label>
                                 </div>
                             </div>
                             {{/case}}
@@ -50,11 +50,11 @@
                         {{/if}}
                         {{/each}}
                         {{#case group "smtp"}}
-                            <div class="row my-2 align-items-center pt-3 border-top" title="發送測試郵件至指定電子郵件地址">
+                            <div class="row my-2 align-items-center pt-3 border-top" title="傳送測試郵件至指定電子郵件地址">
                                 <label for="smtp-test-email" class="col-sm-3 col-form-label">測試 SMTP</label>
                                 <div class="col-sm-8 input-group">
-                                    <input class="form-control" id="smtp-test-email" type="email" placeholder="輸入測試郵件" required spellcheck="false">
-                                    <button type="button" class="btn btn-outline-primary input-group-text" id="smtpTest">發送測試郵件</button>
+                                    <input class="form-control" id="smtp-test-email" type="email" placeholder="輸入測試電子郵件" required spellcheck="false">
+                                    <button type="button" class="btn btn-outline-primary input-group-text" id="smtpTest">傳送測試郵件</button>
                                     <div class="invalid-tooltip">請提供有效的電子郵件地址</div>
                                 </div>
                             </div>
@@ -69,8 +69,8 @@
                             data-bs-toggle="collapse" data-bs-target="#g_readonly">唯讀設定</button>
                     <div id="g_readonly" class="card-body collapse">
                         <div class="small mb-3">
-                            注意：這些選項無法在編輯器中修改，因為它們需要重新啟動伺服器。
-                            要修改它們，您需要在啟動伺服器時設定正確的環境變數。
+                            注意：這些選項無法在編輯器中修改，因為它們需要重新啟動伺服器。<br>
+                            若要修改它們，您需要在啟動伺服器時設定正確的環境變數。<br>
                             您可以在每個選項的工具提示中檢查變數名稱。
                         </div>
 
@@ -83,15 +83,15 @@
                             <div class="col-sm-8">
                                 <div class="input-group">
                                 {{!--
-                                      同時將 database_url 輸入設為密碼。
-                                      如果我們在 config.rs 中將其設為密碼，則支援字串不會進行字元遮罩。
-                                      有時這對於提供支援比僅顯示 3 個星號更有用。
+                                      Also set the database_url input as password here.
+                                      If we would set it to password in config.rs it will not be character masked for the support string.
+                                      And sometimes this is more useful for providing support than just 3 asterisk.
                                 --}}
                                 {{#if (eq name "database_url")}}
-                                    <input readonly class="form-control" id="input_{{name}}" type="password" value="{{value}}" {{#if default}} placeholder="預設值：{{default}}" {{/if}}>
+                                    <input readonly class="form-control" id="input_{{name}}" type="password" value="{{value}}" {{#if default}} placeholder="預設：{{default}}" {{/if}}>
                                     <button class="btn btn-outline-secondary" type="button" data-vw-pw-toggle="input_{{name}}">顯示/隱藏</button>
                                 {{else}}
-                                    <input readonly class="form-control" id="input_{{name}}" type="{{type}}" value="{{value}}" {{#if default}} placeholder="預設值：{{default}}" {{/if}} spellcheck="false">
+                                    <input readonly class="form-control" id="input_{{name}}" type="{{type}}" value="{{value}}" {{#if default}} placeholder="預設：{{default}}" {{/if}} spellcheck="false">
                                     {{#case type "password"}}
                                     <button class="btn btn-outline-secondary" type="button" data-vw-pw-toggle="input_{{name}}">顯示/隱藏</button>
                                     {{/case}}
@@ -106,7 +106,7 @@
                                     <input disabled class="form-check-input" type="checkbox" id="input_{{name}}"
                                         {{#if value}} checked {{/if}}>
 
-                                    <label class="form-check-label" for="input_{{name}}"> 預設值：{{default}} </label>
+                                    <label class="form-check-label" for="input_{{name}}"> 預設：{{default}} </label>
                                 </div>
                             </div>
                             {{/case}}
@@ -124,10 +124,9 @@
                             data-bs-toggle="collapse" data-bs-target="#g_database">備份資料庫</button>
                     <div id="g_database" class="card-body collapse">
                         <div class="small mb-3">
-                            警告：此功能僅建立 SQLite 資料庫的備份副本。
-                            這不包括任何可能需要完整還原 vaultwarden 實例的設定或檔案附件資料。
-                            有關如何執行完整備份的詳細資訊，請參閱
-                            <a href="https://github.com/dani-garcia/vaultwarden/wiki/Backing-up-your-vault" target="_blank" rel="noopener noreferrer">備份</a> wiki 頁面。
+                            警告：此功能僅建立 SQLite 資料庫的備份副本。<br>
+                            這不包括完整還原 vaultwarden 執行個體可能需要的任何設定或檔案附件資料。<br>
+                            有關如何執行完整備份的詳細資訊，請參閱關於<a href="https://github.com/dani-garcia/vaultwarden/wiki/Backing-up-your-vault" target="_blank" rel="noopener noreferrer">備份</a>的 Wiki 頁面。
                         </div>
                         <button type="button" class="btn btn-primary" id="backupDatabase">備份資料庫</button>
                     </div>
@@ -142,7 +141,7 @@
 </main>
 <style>
     #config-block ::placeholder {
-        /* 大多數現代瀏覽器現在都支援此功能。 */
+        /* Most modern browsers support this now. */
         color: orangered;
     }
 
