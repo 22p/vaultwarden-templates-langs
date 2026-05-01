@@ -6,22 +6,22 @@
         <div class="row">
             <div class="col-md">
                 <dl class="row">
-                    <dt class="col-sm-5">已安裝伺服器
+                    <dt class="col-sm-5">伺服器已安裝
                         <span class="badge bg-success d-none abbr-badge" id="server-success" title="已安裝最新版本。">正常</span>
                         <span class="badge bg-warning text-dark d-none abbr-badge" id="server-warning" title="有可用更新。">更新</span>
-                        <span class="badge bg-info text-dark d-none abbr-badge" id="server-branch" title="此為分支版本。">分支</span>
+                        <span class="badge bg-info text-dark d-none abbr-badge" id="server-branch" title="這是分支版本。">分支</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="server-installed">{{page_data.current_release}}</span>
                     </dd>
-                    <dt class="col-sm-5">最新伺服器
-                        <span class="badge bg-secondary d-none abbr-badge" id="server-failed" title="無法判定最新版本。">未知</span>
+                    <dt class="col-sm-5">伺服器最新版
+                        <span class="badge bg-secondary d-none abbr-badge" id="server-failed" title="無法確定最新版本。">未知</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="server-latest">{{page_data.latest_release}}<span id="server-latest-commit" class="d-none">-{{page_data.latest_commit}}</span></span>
                     </dd>
                     {{#if page_data.web_vault_enabled}}
-                    <dt class="col-sm-5">已安裝網頁
+                    <dt class="col-sm-5">網頁已安裝
                         <span class="badge bg-success d-none abbr-badge" id="web-success" title="已安裝最新版本。">正常</span>
                         <span class="badge bg-warning text-dark d-none abbr-badge" id="web-warning" title="有可用更新。">更新</span>
                         <span class="badge bg-info text-dark d-none abbr-badge" id="web-prerelease" title="您正在使用預發行版本。">預發行</span>
@@ -29,15 +29,15 @@
                     <dd class="col-sm-7">
                         <span id="web-installed">{{page_data.active_web_release}}</span>
                     </dd>
-                    <dt class="col-sm-5">最新網頁
-                        <span class="badge bg-secondary d-none abbr-badge" id="web-failed" title="無法判定最新版本。">未知</span>
+                    <dt class="col-sm-5">網頁最新版
+                        <span class="badge bg-secondary d-none abbr-badge" id="web-failed" title="無法確定最新版本。">未知</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="web-latest">{{page_data.latest_web_release}}</span>
                     </dd>
                     {{/if}}
                     {{#unless page_data.web_vault_enabled}}
-                    <dt class="col-sm-5">已安裝網頁</dt>
+                    <dt class="col-sm-5">網頁已安裝</dt>
                     <dd class="col-sm-7">
                         <span id="web-installed">網頁密碼庫已停用</span>
                     </dd>
@@ -54,14 +54,14 @@
         <div class="row">
             <div class="col-md">
                 <dl class="row">
-                    <dt class="col-sm-5">作業系統／架構</dt>
+                    <dt class="col-sm-5">作業系統/架構</dt>
                     <dd class="col-sm-7">
                         <span class="d-block"><b>{{ page_data.host_os }} / {{ page_data.host_arch }}</b></span>
                     </dd>
-                    <dt class="col-sm-5">是否在容器中執行</dt>
+                    <dt class="col-sm-5">在容器內執行</dt>
                     <dd class="col-sm-7">
                     {{#if page_data.running_within_container}}
-                        <span class="d-block"><b>是（基礎映像：{{ page_data.container_base_image }})</b></span>
+                        <span class="d-block"><b>是 (基礎映像: {{ page_data.container_base_image }})</b></span>
                     {{/if}}
                     {{#unless page_data.running_within_container}}
                         <span class="d-block"><b>否</b></span>
@@ -71,7 +71,7 @@
                     <dd class="col-sm-7">
                     {{#if page_data.overrides}}
                         <span class="d-inline"><b>是</b></span>
-                        <span class="badge bg-info text-dark abbr-badge" title="環境變數被 config.json 覆寫。&#013;&#010;{{page_data.overrides}}">詳細</span>
+                        <span class="badge bg-info text-dark abbr-badge" title="環境變數被 config.json 覆寫。&#013;&#010;{{page_data.overrides}}">詳細資訊</span>
                     {{/if}}
                     {{#unless page_data.overrides}}
                         <span class="d-block"><b>否</b></span>
@@ -80,13 +80,13 @@
                     <dt class="col-sm-5">使用反向代理</dt>
                     <dd class="col-sm-7">
                     {{#if page_data.ip_header_exists}}
-                        <span class="d-block" title="已找到 IP 標頭。"><b>是</b></span>
+                        <span class="d-block" title="找到 IP 標頭。"><b>是</b></span>
                     {{/if}}
                     {{#unless page_data.ip_header_exists}}
                         <span class="d-block" title="未找到 IP 標頭。"><b>否</b></span>
                     {{/unless}}
                     </dd>
-                    {{!-- Only show this if the IP Header Exists --}}
+                    {{!-- 僅在 IP 標頭存在時顯示此項 --}}
                     {{#if page_data.ip_header_exists}}
                     <dt class="col-sm-5">IP 標頭
                     {{#if page_data.ip_header_match}}
@@ -98,21 +98,21 @@
                     </dt>
                     <dd class="col-sm-7">
                     {{#if page_data.ip_header_match}}
-                        <span class="d-block"><b>設定/伺服器：</b> {{ page_data.ip_header_name }}</span>
+                        <span class="d-block"><b>設定/伺服器:</b> {{ page_data.ip_header_name }}</span>
                     {{/if}}
                     {{#unless page_data.ip_header_match}}
-                        <span class="d-block"><b>設定：</b> {{ page_data.ip_header_config }}</span>
-                        <span class="d-block"><b>伺服器：</b> {{ page_data.ip_header_name }}</span>
+                        <span class="d-block"><b>設定:</b> {{ page_data.ip_header_config }}</span>
+                        <span class="d-block"><b>伺服器:</b> {{ page_data.ip_header_name }}</span>
                     {{/unless}}
                     </dd>
                     {{/if}}
-                    {{!-- End if IP Header Exists --}}
+                    {{!-- 結束 IP 標頭存在判斷 --}}
                     <dt class="col-sm-5">網際網路存取
                     {{#if page_data.has_http_access}}
-                        <span class="badge bg-success abbr-badge" title="我們可以存取網際網路！">正常</span>
+                        <span class="badge bg-success abbr-badge" title="我們有網際網路存取！">正常</span>
                     {{/if}}
                     {{#unless page_data.has_http_access}}
-                        <span class="badge bg-danger abbr-badge" title="似乎無法存取網際網路。請修正。">錯誤</span>
+                        <span class="badge bg-danger abbr-badge" title="似乎沒有網際網路存取。請修正。">錯誤</span>
                     {{/unless}}
                     </dt>
                     <dd class="col-sm-7">
@@ -126,74 +126,82 @@
                     <dt class="col-sm-5">透過代理存取網際網路</dt>
                     <dd class="col-sm-7">
                     {{#if page_data.uses_proxy}}
-                        <span class="d-block" title="透過代理存取網際網路（已設定 HTTPS_PROXY 或 HTTP_PROXY）。"><b>是</b></span>
+                        <span class="d-block" title="網際網路存取透過代理 (已設定 HTTPS_PROXY 或 HTTP_PROXY)。"><b>是</b></span>
                     {{/if}}
                     {{#unless page_data.uses_proxy}}
-                        <span class="d-block" title="可直接存取網際網路，未設定外部代理。"><b>否</b></span>
+                        <span class="d-block" title="我們有直接網際網路存取，未設定對外代理。"><b>否</b></span>
                     {{/unless}}
                     </dd>
                     <dt class="col-sm-5">Websocket 已啟用
                         {{#if page_data.enable_websocket}}
-                        <span class="badge bg-success d-none abbr-badge" id="websocket-success" title="Websocket 連線正常。">正常</span>
+                        <span class="badge bg-success d-none abbr-badge" id="websocket-success" title="Websocket 連線正常運作。">正常</span>
                         <span class="badge bg-danger d-none abbr-badge" id="websocket-error" title="Websocket 連線錯誤，請驗證您的反向代理設定！">錯誤</span>
                         {{/if}}
                     </dt>
                     <dd class="col-sm-7">
                     {{#if page_data.enable_websocket}}
-                        <span class="d-block" title="Websocket 連線已啟用（ENABLE_WEBSOCKET 為 true）。"><b>是</b></span>
+                        <span class="d-block" title="Websocket 連線已啟用 (ENABLE_WEBSOCKET 為 true)。"><b>是</b></span>
                     {{/if}}
                     {{#unless page_data.enable_websocket}}
-                        <span class="d-block" title="Websocket 連線已停用（ENABLE_WEBSOCKET 為 false）。"><b>否</b></span>
+                        <span class="d-block" title="Websocket 連線已停用 (ENABLE_WEBSOCKET 為 false)。"><b>否</b></span>
                     {{/unless}}
                     </dd>
 
-                    <dt class="col-sm-5">DNS（github.com）
+                    <dt class="col-sm-5">DNS (github.com)
                         <span class="badge bg-success d-none abbr-badge" id="dns-success" title="DNS 解析正常！">正常</span>
                         <span class="badge bg-danger d-none abbr-badge" id="dns-warning" title="DNS 解析失敗。請修正。">錯誤</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="dns-resolved">{{page_data.dns_resolved}}</span>
                     </dd>
-                    <dt class="col-sm-5">日期與時間（本地）
+                    <dt class="col-sm-5">日期與時間 (本地)
                         {{#if page_data.tz_env}}
-                            <span class="badge bg-success abbr-badge" title="已設定的 TZ 環境變數">{{page_data.tz_env}}</span>
+                            <span class="badge bg-success abbr-badge" title="已設定 TZ 環境變數">{{page_data.tz_env}}</span>
                         {{/if}}
                     </dt>
                     <dd class="col-sm-7">
-                        <span><b>伺服器：</b> {{page_data.server_time_local}}</span>
+                        <span><b>伺服器:</b> {{page_data.server_time_local}}</span>
                     </dd>
-                    <dt class="col-sm-5">日期與時間（UTC）
-                        <span class="badge bg-success d-none abbr-badge" id="time-success" title="伺服器與瀏覽器時間相差在 15 秒內。">伺服器/瀏覽器正常</span>
-                        <span class="badge bg-danger d-none abbr-badge" id="time-warning" title="伺服器與瀏覽器時間相差超過 15 秒。">伺服器/瀏覽器錯誤</span>
+                    <dt class="col-sm-5">日期與時間 (UTC)
+                        <span class="badge bg-success d-none abbr-badge" id="time-success" title="伺服器與瀏覽器時間相差在 15 秒內。">伺服器/瀏覽器 正常</span>
+                        <span class="badge bg-danger d-none abbr-badge" id="time-warning" title="伺服器與瀏覽器時間相差超過 15 秒。">伺服器/瀏覽器 錯誤</span>
                         <span class="badge bg-success d-none abbr-badge" id="ntp-server-success" title="伺服器與 NTP 時間相差在 15 秒內。">伺服器 NTP 正常</span>
                         <span class="badge bg-danger d-none abbr-badge" id="ntp-server-warning" title="伺服器與 NTP 時間相差超過 15 秒。">伺服器 NTP 錯誤</span>
                         <span class="badge bg-success d-none abbr-badge" id="ntp-browser-success" title="瀏覽器與 NTP 時間相差在 15 秒內。">瀏覽器 NTP 正常</span>
                         <span class="badge bg-danger d-none abbr-badge" id="ntp-browser-warning" title="瀏覽器與 NTP 時間相差超過 15 秒。">瀏覽器 NTP 錯誤</span>
                     </dt>
                     <dd class="col-sm-7">
-                        <span id="ntp-time" class="d-block"><b>NTP：</b> <span id="ntp-server-string">{{page_data.ntp_time}}</span></span>
-                        <span id="time-server" class="d-block"><b>伺服器：</b> <span id="time-server-string">{{page_data.server_time}}</span></span>
-                        <span id="time-browser" class="d-block"><b>瀏覽器：</b> <span id="time-browser-string"></span></span>
+                        <span id="ntp-time" class="d-block"><b>NTP:</b> <span id="ntp-server-string">{{page_data.ntp_time}}</span></span>
+                        <span id="time-server" class="d-block"><b>伺服器:</b> <span id="time-server-string">{{page_data.server_time}}</span></span>
+                        <span id="time-browser" class="d-block"><b>瀏覽器:</b> <span id="time-browser-string"></span></span>
                     </dd>
 
-                    <dt class="col-sm-5">網域名稱設定
+                    <dt class="col-sm-5">網域設定
                         <span class="badge bg-success d-none abbr-badge" id="domain-success" title="網域變數與瀏覽器位置相符，似乎已正確設定。">符合</span>
-                        <span class="badge bg-danger d-none abbr-badge" id="domain-warning" title="網域變數與瀏覽器位置不相符。&#013;&#010;網域變數似乎未正確設定。&#013;&#010;某些功能可能無法正常運作！">不符合</span>
+                        <span class="badge bg-danger d-none abbr-badge" id="domain-warning" title="網域變數與瀏覽器位置不符。&#013;&#010;網域變數似乎未正確設定。&#013;&#010;某些功能可能無法如預期運作！">不符合</span>
                         <span class="badge bg-success d-none abbr-badge" id="https-success" title="已設定使用 HTTPS">HTTPS</span>
-                        <span class="badge bg-danger d-none abbr-badge" id="https-warning" title="未設定使用 HTTPS。&#013;&#010;某些功能可能無法正常運作！">無 HTTPS</span>
+                        <span class="badge bg-danger d-none abbr-badge" id="https-warning" title="未設定使用 HTTPS。&#013;&#010;某些功能可能無法如預期運作！">無 HTTPS</span>
                     </dt>
                     <dd class="col-sm-7">
-                        <span id="domain-server" class="d-block"><b>伺服器：</b> <span id="domain-server-string">{{page_data.admin_url}}</span></span>
-                        <span id="domain-browser" class="d-block"><b>瀏覽器：</b> <span id="domain-browser-string"></span></span>
+                        <span id="domain-server" class="d-block"><b>伺服器:</b> <span id="domain-server-string">{{page_data.admin_url}}</span></span>
+                        <span id="domain-browser" class="d-block"><b>瀏覽器:</b> <span id="domain-browser-string"></span></span>
                     </dd>
 
                     <dt class="col-sm-5">HTTP 回應驗證
-                        <span class="badge bg-success d-none abbr-badge" id="http-response-success" title="所有標頭與 HTTP 請求回應似乎正常。">正常</span>
+                        <span class="badge bg-success d-none abbr-badge" id="http-response-success" title="所有標頭和 HTTP 請求回應似乎正常。">正常</span>
                         <span class="badge bg-danger d-none abbr-badge" id="http-response-warning" title="某些標頭或 HTTP 請求回應回傳無效資料！">錯誤</span>
                     </dt>
                     <dd class="col-sm-7">
                         <span id="http-response-errors" class="d-block"></span>
                     </dd>
+                    {{#if page_data.invalid_feature_flags}}
+                    <dt class="col-sm-5">無效的功能旗標
+                        <span class="badge bg-warning text-dark abbr-badge" id="feature-flag-warning" title="某些功能旗標無效或已過時！">警告</span>
+                    </dt>
+                    <dd class="col-sm-7">
+                        <span id="feature-flags" class="d-block"><b>旗標:</b> <span id="feature-flags-string">{{page_data.invalid_feature_flags}}</span></span>
+                    </dd>
+                    {{/if}}
                 </dl>
             </div>
         </div>
@@ -205,13 +213,13 @@
                     <dd class="col-sm-12">
                         如果您需要支援，請在建立新問題前先查看以下連結：
                          <a href="https://vaultwarden.discourse.group/" target="_blank" rel="noreferrer noopener">Vaultwarden 論壇</a>
-                         | <a href="https://github.com/dani-garcia/vaultwarden/discussions" target="_blank" rel="noreferrer noopener">GitHub 討論區</a>
+                         | <a href="https://github.com/dani-garcia/vaultwarden/discussions" target="_blank" rel="noreferrer noopener">Github 討論區</a>
                     </dd>
                 </dl>
                 <dl class="row">
                     <dd class="col-sm-12">
-                        您可以使用下方按鈕預先產生一串文字，然後複製貼上到論壇或 GitHub 建立新問題。<br>
-                        我們會預設隱藏產生的支援字串中最敏感的數值，但請務必確認其中沒有您想隱藏的內容！<br>
+                        您可以使用下方的按鈕預先產生一串字串，以便在論壇或 Github 建立新問題時複製貼上。<br>
+                        我們預設會盡量隱藏產生的支援字串中最敏感的數值，但請確認其中沒有您想隱藏的內容！<br>
                     </dd>
                 </dl>
                 <dl class="row">
